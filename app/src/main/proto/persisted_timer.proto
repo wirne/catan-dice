@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_package = "com.wirne.catandice.datastore";
+option java_multiple_files = true;
+
+message PersistedTimer {
+  bool timerEnabled = 1;
+  int64 timeInSeconds = 2;
+  int64 timeLeftInSeconds = 3;
+}

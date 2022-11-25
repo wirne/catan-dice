@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+option java_package = "com.wirne.catandice.datastore";
+option java_multiple_files = true;
+
+message PersistedGameState {
+  repeated PersistedDiceRoll history = 1;
+  repeated PersistedTwoDiceOutcome twoDiceOutcomes = 2;
+}
+
+message PersistedDiceRoll {
+  PersistedTwoDiceOutcome twoDiceOutcome = 1;
+  PersistedCitiesAndKnightsDiceOutcome citiesAndKnightsDiceOutcome = 2;
+  int32 turn = 3;
+  bool random = 4;
+}
+
+enum PersistedCitiesAndKnightsDiceOutcome {
+  Ship1 = 0;
+  Ship2 = 1;
+  Ship3 = 2;
+  Blue = 3;
+  Yellow = 4;
+  Green = 5;
+}
+
+enum PersistedTwoDiceOutcome {
+  OneOne = 0;
+
+  TwoOne = 1;
+  OneTwo = 2;
+
+  ThreeOne = 3;
+  TwoTwo = 4;
+  OneThree = 5;
+
+  FourOne = 6;
+  ThreeTwo = 7;
+  TwoThree = 8;
+  OneFour = 9;
+
+  FiveOne = 10;
+  FourTwo = 11;
+  ThreeThree = 12;
+  TwoFour = 13;
+  OneFive = 14;
+
+  SixOne = 15;
+  FiveTwo = 16;
+  FourThree = 17;
+  ThreeFour = 18;
+  TwoFive = 19;
+  OneSix = 20;
+
+  SixTwo = 21;
+  FiveThree = 22;
+  FourFour = 23;
+  ThreeFive = 24;
+  TwoSix = 25;
+
+  SixThree = 26;
+  FiveFour = 27;
+  FourFive = 28;
+  ThreeSix = 29;
+
+  SixFour = 30;
+  FiveFive = 31;
+  FourSix = 32;
+
+  SixFive = 33;
+  FiveSix = 34;
+
+  SixSix = 35;
+}

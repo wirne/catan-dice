@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_package = "com.wirne.catandice.datastore";
+option java_multiple_files = true;
+
+message PersistedSettings {
+  bool citiesAndKnightsEnabled = 1;
+  int32 randomPercentage = 2;
+}
