@@ -16,11 +16,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.wirne.catandice.R
 import com.wirne.catandice.common.use
 import com.wirne.catandice.data.model.CitiesAndKnightsDiceOutcome
+import com.wirne.catandice.data.model.ShipState
 import com.wirne.catandice.data.model.TwoDiceOutcome
 import com.wirne.catandice.feature.game.GameContract.Event
 import com.wirne.catandice.feature.game.GameContract.State
 import com.wirne.catandice.feature.game.component.Dices
 import com.wirne.catandice.feature.game.component.ResetButton
+import com.wirne.catandice.feature.game.component.Ship
 import com.wirne.catandice.ui.theme.CDColor
 import com.wirne.catandice.ui.theme.CDTheme
 
@@ -101,6 +103,19 @@ private fun GameScreen(
                 )
             }
 
+            AnimatedVisibility(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter),
+                visible = state.citiesAndKnightsEnabled
+            ) {
+                Ship(
+                    state = state.shipState,
+                    onShipStateChange = {
+                        dispatch(Event.OnShipStateChange(it))
+                    }
+                )
+            }
+
             Button(
                 modifier = Modifier
                     .padding(16.dp)
@@ -140,6 +155,7 @@ private fun Preview() {
                 ),
                 randomPercentage = 10,
                 citiesAndKnightsEnabled = true,
+                shipState = ShipState.Five
             ),
             dispatch = { },
             openSettings = { },
@@ -157,6 +173,7 @@ private fun PreviewEmpty() {
                 diceRollHistory = emptyList(),
                 randomPercentage = 10,
                 citiesAndKnightsEnabled = true,
+                shipState = ShipState.Five
             ),
             dispatch = { },
             openSettings = { },

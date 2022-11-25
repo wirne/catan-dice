@@ -6,6 +6,7 @@ option java_multiple_files = true;
 message PersistedGameState {
   repeated PersistedDiceRoll history = 1;
   repeated PersistedTwoDiceOutcome twoDiceOutcomes = 2;
+  PersistedShipState shipState = 3;
 }
 
 message PersistedDiceRoll {
@@ -13,6 +14,16 @@ message PersistedDiceRoll {
   PersistedCitiesAndKnightsDiceOutcome citiesAndKnightsDiceOutcome = 2;
   int32 turn = 3;
   bool random = 4;
+}
+
+enum PersistedShipState {
+    One = 0;
+    Two = 1;
+    Three = 2;
+    Four = 3;
+    Five = 4;
+    Six = 5;
+    Seven = 6;
 }
 
 enum PersistedCitiesAndKnightsDiceOutcome {

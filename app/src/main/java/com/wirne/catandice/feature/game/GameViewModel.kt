@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wirne.catandice.data.model.CitiesAndKnightsDiceOutcome
+import com.wirne.catandice.data.model.ShipState
 import com.wirne.catandice.data.model.TwoDiceOutcome
 import com.wirne.catandice.feature.game.GameContract.Event
 import com.wirne.catandice.feature.game.GameContract.Effect
@@ -34,6 +35,7 @@ class GameViewModel @Inject constructor(
             diceRollHistory = gameState.rollHistory,
             randomPercentage = settings.randomPercentage,
             citiesAndKnightsEnabled = settings.citiesAndKnightsEnabled,
+            shipState = gameState.shipState
         )
     }.stateIn(
         scope = viewModelScope,
@@ -41,7 +43,8 @@ class GameViewModel @Inject constructor(
         initialValue = State(
             diceRollHistory = emptyList(),
             randomPercentage = 0,
-            citiesAndKnightsEnabled = false
+            citiesAndKnightsEnabled = false,
+            shipState = ShipState.One
         )
     )
 
@@ -53,6 +56,7 @@ class GameViewModel @Inject constructor(
             when (event) {
                 Event.Roll -> roll()
                 Event.Reset -> reset()
+                is Event.OnShipStateChange -> updateShipState(event.state)
             }
         }
     }
@@ -75,11 +79,21 @@ class GameViewModel @Inject constructor(
 
         timerRepository.resetTimer()
 
+        val citiesAndKnightsOutcome = CitiesAndKnightsDiceOutcome.values().random()
+
+        if (citiesAndKnightsOutcome.isShip() && state.value.citiesAndKnightsEnabled) {
+            gameStateRepository.updateShipState(state.value.shipState.next())
+        }
+
         gameStateRepository.addToHistory(
             twoDiceOutcome = twoDiceOutcome,
-            knightsAndCitiesDiceOutcome = CitiesAndKnightsDiceOutcome.values().random(),
+            citiesAndKnightsDiceOutcome = citiesAndKnightsOutcome,
             random = shouldTakeRandom
         )
+    }
+
+    private suspend fun updateShipState(state: ShipState) {
+        gameStateRepository.updateShipState(state)
     }
 }
 

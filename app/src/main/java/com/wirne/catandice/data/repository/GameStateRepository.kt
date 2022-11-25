@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import com.wirne.catandice.data.model.GameState
 import com.wirne.catandice.data.model.CitiesAndKnightsDiceOutcome
+import com.wirne.catandice.data.model.ShipState
 import com.wirne.catandice.data.model.TwoDiceOutcome
 import com.wirne.catandice.datastore.*
 import com.wirne.catandice.feature.game.DiceRoll
@@ -32,6 +33,14 @@ class GameStateRepository @Inject constructor(
     suspend fun reset() {
         context.gameStateStore.updateData {
             PersistedGameState.getDefaultInstance()
+        }
+    }
+
+    suspend fun updateShipState(state: ShipState) {
+        context.gameStateStore.updateData {
+            it.toBuilder()
+                .setShipState(state.toPersistedShipState())
+                .build()
         }
     }
 
@@ -67,7 +76,7 @@ class GameStateRepository @Inject constructor(
 
     suspend fun addToHistory(
         twoDiceOutcome: TwoDiceOutcome,
-        knightsAndCitiesDiceOutcome: CitiesAndKnightsDiceOutcome,
+        citiesAndKnightsDiceOutcome: CitiesAndKnightsDiceOutcome,
         random: Boolean
     ) {
         context.gameStateStore.updateData {
@@ -76,7 +85,7 @@ class GameStateRepository @Inject constructor(
                 .addHistory(
                     PersistedDiceRoll.newBuilder()
                         .setTurn(turn)
-                        .setCitiesAndKnightsDiceOutcome(knightsAndCitiesDiceOutcome.toPersistedCitiesAndKnightsDiceOutcome())
+                        .setCitiesAndKnightsDiceOutcome(citiesAndKnightsDiceOutcome.toPersistedCitiesAndKnightsDiceOutcome())
                         .setTwoDiceOutcome(twoDiceOutcome.toPersistedTwoDiceOutcome())
                         .setRandom(random)
                         .build()
@@ -110,9 +119,34 @@ private fun PersistedGameState.toGameState(): GameState {
 
     return GameState(
         rollHistory = history,
-        twoDiceEntropy = twoDiceOutcomesList.mapNotNull { it.toTwoDiceOutcomeOrNull() }
+        twoDiceEntropy = twoDiceOutcomesList.mapNotNull { it.toTwoDiceOutcomeOrNull() },
+        shipState = shipState.toShipState()
     )
 }
+
+private fun PersistedShipState.toShipState(): ShipState =
+    when (this) {
+        PersistedShipState.One,
+        PersistedShipState.UNRECOGNIZED -> ShipState.One
+
+        PersistedShipState.Two -> ShipState.Two
+        PersistedShipState.Three -> ShipState.Three
+        PersistedShipState.Four -> ShipState.Four
+        PersistedShipState.Five -> ShipState.Five
+        PersistedShipState.Six -> ShipState.Six
+        PersistedShipState.Seven -> ShipState.Seven
+    }
+
+private fun ShipState.toPersistedShipState(): PersistedShipState =
+    when (this) {
+        ShipState.One -> PersistedShipState.One
+        ShipState.Two -> PersistedShipState.Two
+        ShipState.Three -> PersistedShipState.Three
+        ShipState.Four -> PersistedShipState.Four
+        ShipState.Five -> PersistedShipState.Five
+        ShipState.Six -> PersistedShipState.Six
+        ShipState.Seven -> PersistedShipState.Seven
+    }
 
 private fun PersistedCitiesAndKnightsDiceOutcome.toCitiesAndKnightsDiceOutcomeOrNull(): CitiesAndKnightsDiceOutcome? =
     when (this) {
