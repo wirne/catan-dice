@@ -43,18 +43,24 @@ class FloatingTimerViewModel @Inject constructor(
                 enabled = timer.enabled,
                 gotHistory = gameState.rollHistory.isNotEmpty()
             )
-        }
-            .distinctUntilChanged { old, new ->
-                if (!old.gotHistory && new.gotHistory) {
-                    startTimer()
-                }
-                old == new
-            }
-            .stateIn(
+        }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.Eagerly,
             initialValue = State.Initial
         )
+
+    init {
+        viewModelScope.launch {
+            state.distinctUntilChanged { old, new ->
+                val isFirstRoll = !old.gotHistory && new.gotHistory
+                val isRollAfterTimeout = old.timeout && !new.timeout
+                if (isFirstRoll || isRollAfterTimeout) {
+                    startTimer()
+                }
+                old == new
+            }.collect()
+        }
+    }
 
     override fun event(event: Event) {
         viewModelScope.launch {
@@ -70,7 +76,7 @@ class FloatingTimerViewModel @Inject constructor(
     override val effect: Flow<Effect> = effectChannel.receiveAsFlow()
 
     private fun startTimer() {
-        if (state.value.running || state.value.finished) {
+        if (state.value.running || state.value.timeout) {
             return
         }
         startCounter()
@@ -98,7 +104,7 @@ class FloatingTimerViewModel @Inject constructor(
 
         countDownJob?.cancel()
         countDownJob = viewModelScope.launch {
-            while (!state.value.finished) {
+            while (!state.value.timeout) {
                 delay(1.seconds)
                 timerRepository.updateTimeLeft(timeLeft = state.value.timeLeft.minus(1.seconds))
             }

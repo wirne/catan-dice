@@ -21,7 +21,7 @@ interface FloatingTimerContract : ViewModelContract<FloatingTimerContract.Event,
         val enabled: Boolean,
         val gotHistory: Boolean
     ) {
-        val finished: Boolean = timeLeft == Duration.ZERO
+        val timeout: Boolean = timeLeft == Duration.ZERO
 
         companion object {
             val Initial = State(
