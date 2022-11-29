@@ -18,7 +18,8 @@ import com.wirne.catandice.data.model.TwoDiceSum
 import com.wirne.catandice.feature.game.DiceRoll
 
 @Composable
-fun BoxScope.Dices(
+fun Dices(
+    modifier: Modifier,
     diceRoll: DiceRoll,
     knightsAndCitiesEnabled: Boolean
 ) {
@@ -61,8 +62,7 @@ fun BoxScope.Dices(
     }
 
     Column(
-        modifier = Modifier
-            .align(Alignment.Center),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AnimatedVisibility(visible = knightsAndCitiesEnabled) {

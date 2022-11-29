@@ -63,7 +63,11 @@ private fun StatsScreen(
 
             val (xLabelRef, xValuesRef, yLabelRef, graphRef, infoBoxRef) = createRefs()
 
-            IconButton(onClick = onNavigationIconClick) {
+            IconButton(
+                modifier = Modifier
+                    .padding(4.dp),
+                onClick = onNavigationIconClick
+            ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_back),
                     contentDescription = null

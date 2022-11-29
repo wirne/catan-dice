@@ -85,6 +85,7 @@ private fun SettingsScreen(
 
             IconButton(
                 modifier = Modifier
+                    .padding(4.dp)
                     .align(Alignment.TopStart),
                 onClick = onNavigationIconClick
             ) {

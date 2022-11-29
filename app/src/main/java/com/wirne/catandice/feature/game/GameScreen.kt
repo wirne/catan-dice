@@ -1,17 +1,20 @@
 package com.wirne.catandice.feature.game
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Surface
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wirne.catandice.R
 import com.wirne.catandice.common.use
@@ -22,6 +25,7 @@ import com.wirne.catandice.feature.game.GameContract.Event
 import com.wirne.catandice.feature.game.GameContract.State
 import com.wirne.catandice.feature.game.component.Dices
 import com.wirne.catandice.feature.game.component.ResetButton
+import com.wirne.catandice.feature.game.component.RollButton
 import com.wirne.catandice.feature.game.component.Ship
 import com.wirne.catandice.ui.theme.CDColor
 import com.wirne.catandice.ui.theme.CDTheme
@@ -53,19 +57,21 @@ private fun GameScreen(
     val lastDiceRoll = state.diceRollHistory.lastOrNull()
 
     Surface {
-        Box(
+        ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize(),
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.TopCenter)
-                    .padding(start = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+
+            val (shipRef, dicesRef, rollButtonRef) = createRefs()
+
+            TopAppBar(
+                backgroundColor = Color.Transparent,
+                elevation = 0.dp
             ) {
-                AnimatedVisibility(visible = state.diceRollHistory.isNotEmpty()) {
+
+                AnimatedVisibility(
+                    visible = state.diceRollHistory.isNotEmpty()
+                ) {
                     ResetButton(
                         reset = { dispatch(Event.Reset) }
                     )
@@ -73,7 +79,9 @@ private fun GameScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                if (state.diceRollHistory.isNotEmpty()) {
+                AnimatedVisibility(
+                    visible = state.diceRollHistory.isNotEmpty()
+                ) {
                     IconButton(
                         onClick = openStats
                     ) {
@@ -98,17 +106,28 @@ private fun GameScreen(
 
             if (lastDiceRoll != null) {
                 Dices(
+                    modifier = Modifier
+                        .constrainAs(dicesRef) {
+                            top.linkTo(parent.top)
+                            if (state.citiesAndKnightsEnabled) {
+                                bottom.linkTo(shipRef.top)
+                            } else {
+                                bottom.linkTo(parent.bottom)
+                            }
+                            centerHorizontallyTo(parent)
+                        },
                     diceRoll = lastDiceRoll,
                     knightsAndCitiesEnabled = state.citiesAndKnightsEnabled
                 )
             }
 
-            AnimatedVisibility(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter),
-                visible = state.citiesAndKnightsEnabled
-            ) {
+            if (state.citiesAndKnightsEnabled) {
                 Ship(
+                    modifier = Modifier
+                        .constrainAs(shipRef) {
+                            bottom.linkTo(parent.bottom)
+                            centerHorizontallyTo(parent)
+                        },
                     state = state.shipState,
                     onShipStateChange = {
                         dispatch(Event.OnShipStateChange(it))
@@ -116,23 +135,16 @@ private fun GameScreen(
                 )
             }
 
-            Button(
+            RollButton(
                 modifier = Modifier
-                    .padding(16.dp)
-                    .size(80.dp)
-                    .align(Alignment.CenterEnd),
-                shape = CircleShape,
+                    .constrainAs(rollButtonRef) {
+                        end.linkTo(parent.end)
+                        centerVerticallyTo(parent)
+                    },
                 onClick = {
                     dispatch(Event.Roll)
                 }
-            ) {
-                Text(
-                    text = "Roll",
-                    style = with(LocalDensity.current) {
-                        MaterialTheme.typography.h5.copy(fontSize = 24.dp.toSp())
-                    }
-                )
-            }
+            )
         }
     }
 }

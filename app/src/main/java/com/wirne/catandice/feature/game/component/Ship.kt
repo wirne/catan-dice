@@ -31,7 +31,8 @@ object ShipDefaults {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun BoxScope.Ship(
+fun Ship(
+    modifier: Modifier,
     state: ShipState,
     onShipStateChange: (ShipState) -> Unit
 ) {
@@ -78,9 +79,8 @@ fun BoxScope.Ship(
     }
 
     Box(
-        modifier = Modifier
-            .width(ShipDefaults.Width)
-            .align(Alignment.BottomCenter),
+        modifier = modifier
+            .width(ShipDefaults.Width),
         contentAlignment = Alignment.CenterStart
     ) {
 
