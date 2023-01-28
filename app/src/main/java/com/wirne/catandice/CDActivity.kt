@@ -9,9 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.wirne.catandice.feature.game.GameRoute
-import com.wirne.catandice.feature.settings.SettingsRoute
-import com.wirne.catandice.feature.stats.StatsRoute
+import com.wirne.catandice.feature.game.GameScreen
+import com.wirne.catandice.feature.settings.SettingsScreen
+import com.wirne.catandice.feature.stats.StatsScreen
 import com.wirne.catandice.feature.timer.FloatingTimer
 import com.wirne.catandice.ui.theme.CDTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +42,7 @@ private fun CDNavHost() {
     ) {
 
         composable(route = "game") {
-            GameRoute(
+            GameScreen(
                 openSettings = {
                     navController.navigate(route = "settings")
                 },
@@ -53,11 +53,11 @@ private fun CDNavHost() {
         }
 
         composable(route = "stats") {
-            StatsRoute(onNavigationIconClick = navController::popBackStack)
+            StatsScreen(onNavigationIconClick = navController::popBackStack)
         }
 
         composable(route = "settings") {
-            SettingsRoute(onNavigationIconClick = navController::popBackStack)
+            SettingsScreen(onNavigationIconClick = navController::popBackStack)
         }
     }
 }

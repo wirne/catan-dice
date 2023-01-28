@@ -31,7 +31,7 @@ import com.wirne.catandice.ui.theme.CDColor
 import com.wirne.catandice.ui.theme.CDTheme
 
 @Composable
-fun GameRoute(
+fun GameScreen(
     openSettings: () -> Unit,
     openStats: () -> Unit,
     viewModel: GameViewModel = hiltViewModel()
@@ -152,7 +152,6 @@ private fun GameScreen(
 @Composable
 @Preview(name = "mobile", widthDp = 891, heightDp = 411)
 @Preview(name = "tablet", device = Devices.NEXUS_6)
-@Preview(name = "desktop", widthDp = (16 * 500), heightDp = (9 * 500))
 private fun Preview() {
     CDTheme {
         GameScreen(

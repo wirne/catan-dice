@@ -46,17 +46,14 @@ fun ResetButton(
 @Stable
 private class ResetToast(
     context: Context
-) : Toast(context) {
-
-    var isShowingToast = false
+) {
+    private var isShowingToast = false
+    private val toast = Toast.makeText(context, "Long press to reset", Toast.LENGTH_SHORT)
 
     init {
-        setText("Long press to reset")
-        duration = LENGTH_SHORT
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            addCallback(
-                object : Callback() {
+            toast.addCallback(
+                object : Toast.Callback() {
                     override fun onToastHidden() {
                         super.onToastHidden()
                         isShowingToast = false
@@ -70,17 +67,17 @@ private class ResetToast(
         }
     }
 
-    override fun show() {
+    fun show() {
         if (!isShowingToast) {
-            super.show()
+            toast.show()
         }
     }
 }
 
 @Composable
-fun rememberResetToast(): Toast {
+private fun rememberResetToast(): ResetToast {
     val context = LocalContext.current
     return remember {
-        ResetToast(context)
+       ResetToast(context)
     }
 }

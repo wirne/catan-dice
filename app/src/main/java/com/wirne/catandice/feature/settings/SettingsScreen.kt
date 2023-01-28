@@ -21,7 +21,7 @@ import com.wirne.catandice.common.use
 import kotlin.time.Duration.Companion.minutes
 
 @Composable
-fun SettingsRoute(
+fun SettingsScreen(
     onNavigationIconClick: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {

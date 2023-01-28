@@ -38,7 +38,7 @@ import kotlin.math.roundToInt
 import kotlin.random.Random
 
 @Composable
-fun StatsRoute(
+fun StatsScreen(
     onNavigationIconClick: () -> Unit,
     viewModel: StatsViewModel = hiltViewModel()
 ) {
@@ -243,10 +243,10 @@ private fun InfoBox(
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            Text(text = "Total roll count")
+            Text(text = "Roll count")
         }
 
-        Text(text = "Turns: $turns")
+        Text(text = "Total roll count: $turns")
     }
 }
 
@@ -275,8 +275,9 @@ private fun Graph(
 }
 
 object BarDefaults {
+    private val HorizontalPadding = 5.dp
+    val ExpectedCountThickness = 2.dp
     val Width = 40.dp
-    val HorizontalPadding = 5.dp
     val WidthWithPadding = Width + HorizontalPadding
     val TopSpacing = 40.dp
 }
@@ -329,9 +330,9 @@ private fun Bar(
 
             Box(
                 modifier = Modifier
-                    .height(2.dp)
+                    .height(BarDefaults.ExpectedCountThickness)
                     .fillMaxWidth()
-                    .offset(y = -expectedLineHeight)
+                    .offset(y = -expectedLineHeight - BarDefaults.ExpectedCountThickness)
                     .background(CDColor.Yellow)
             )
 
