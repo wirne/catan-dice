@@ -332,7 +332,7 @@ private fun Bar(
                 modifier = Modifier
                     .height(BarDefaults.ExpectedCountThickness)
                     .fillMaxWidth()
-                    .offset(y = -expectedLineHeight - BarDefaults.ExpectedCountThickness)
+                    .offset(y = -expectedLineHeight + (BarDefaults.ExpectedCountThickness / 2))
                     .background(CDColor.Yellow)
             )
 
