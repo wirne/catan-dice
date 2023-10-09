@@ -135,6 +135,7 @@ private fun PersistedShipState.toShipState(): ShipState =
         PersistedShipState.Five -> ShipState.Five
         PersistedShipState.Six -> ShipState.Six
         PersistedShipState.Seven -> ShipState.Seven
+        PersistedShipState.Eight -> ShipState.Eight
     }
 
 private fun ShipState.toPersistedShipState(): PersistedShipState =
@@ -146,6 +147,7 @@ private fun ShipState.toPersistedShipState(): PersistedShipState =
         ShipState.Five -> PersistedShipState.Five
         ShipState.Six -> PersistedShipState.Six
         ShipState.Seven -> PersistedShipState.Seven
+        ShipState.Eight -> PersistedShipState.Eight
     }
 
 private fun PersistedCitiesAndKnightsDiceOutcome.toCitiesAndKnightsDiceOutcomeOrNull(): CitiesAndKnightsDiceOutcome? =

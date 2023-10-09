@@ -24,6 +24,7 @@ enum PersistedShipState {
     Five = 4;
     Six = 5;
     Seven = 6;
+    Eight = 7;
 }
 
 enum PersistedCitiesAndKnightsDiceOutcome {

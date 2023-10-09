@@ -24,7 +24,7 @@ import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
 object ShipDefaults {
-    val Width = 300.dp
+    val Width = 350.dp
     val ShipSize = 48.dp
     val AnchorSize = 8.dp
 }
@@ -66,7 +66,7 @@ fun Ship(
             swipeableState.animateTo(state)
         }
 
-        if (state == swipeableState.currentValue && state == ShipState.Seven) {
+        if (state == swipeableState.currentValue && state == ShipState.Eight) {
             context.vibrator.vibrate(
                 VibrationEffect.createOneShot(
                     500,
@@ -93,7 +93,7 @@ fun Ship(
         )
 
         anchors.forEach { (offset, shipState) ->
-            val padding = if (shipState == ShipState.Seven) 4.dp else 0.dp
+            val padding = if (shipState == ShipState.Eight) 4.dp else 0.dp
             val halfPaddingPx = with(LocalDensity.current) {
                 (padding.toPx() / 2).roundToInt()
             }

@@ -7,7 +7,8 @@ enum class ShipState {
     Four,
     Five,
     Six,
-    Seven;
+    Seven,
+    Eight;
 
     fun next(): ShipState = when (this) {
         One -> Two
@@ -16,6 +17,7 @@ enum class ShipState {
         Four -> Five
         Five -> Six
         Six -> Seven
-        Seven -> One
+        Seven -> Eight
+        Eight -> One
     }
 }
