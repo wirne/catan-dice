@@ -4,10 +4,10 @@ import android.os.VibrationEffect
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,8 +61,8 @@ private fun FloatingTimerImpl(
 ) {
 
     val isPreview = LocalInspectionMode.current
-    var offsetX by remember { mutableStateOf(if (isPreview) 0f else 50f) }
-    var offsetY by remember { mutableStateOf(if (isPreview) 0f else 200f) }
+    var offsetX by remember { mutableFloatStateOf(if (isPreview) 0f else 50f) }
+    var offsetY by remember { mutableFloatStateOf(if (isPreview) 0f else 200f) }
     val context = LocalContext.current
 
     effectFlow.collectInLaunchedEffect { effect ->

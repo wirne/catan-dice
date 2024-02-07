@@ -3,10 +3,10 @@ package com.wirne.catandice.feature.stats
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -127,7 +127,7 @@ private fun XValues(
     Row(
         modifier = modifier
     ) {
-        for (twoDiceSum in TwoDiceSum.values()) {
+        for (twoDiceSum in TwoDiceSum.entries) {
             Text(
                 modifier = Modifier
                     .width(BarDefaults.WidthWithPadding),
@@ -167,8 +167,8 @@ private fun InfoBox(
     turns: Int
 ) {
 
-    var offsetX by remember { mutableStateOf(0f) }
-    var offsetY by remember { mutableStateOf(0f) }
+    var offsetX by remember { mutableFloatStateOf(0f) }
+    var offsetY by remember { mutableFloatStateOf(0f) }
 
     Column(
         modifier = modifier
@@ -263,7 +263,7 @@ private fun Graph(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Bottom
     ) {
-        for (twoDiceSum in TwoDiceSum.values()) {
+        for (twoDiceSum in TwoDiceSum.entries) {
             Bar(
                 twoDiceSum = twoDiceSum,
                 count = state.twoDiceSumCount.getOrDefault(twoDiceSum, defaultValue = Count(0, 0)),
@@ -361,7 +361,7 @@ private fun Density.createStripeBrush(): Brush {
 }
 
 private val PreviewState = State(
-    twoDiceSumCount = TwoDiceSum.values().associateWith {
+    twoDiceSumCount = TwoDiceSum.entries.associateWith {
         val totalCount = Random.nextInt(10)
         Count(
             totalCount = totalCount,

@@ -1,10 +1,10 @@
 package com.wirne.catandice.feature.settings.component
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Slider
-import androidx.compose.material.SliderDefaults
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
 import com.wirne.catandice.ui.theme.CDColor

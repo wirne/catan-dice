@@ -3,7 +3,12 @@ package com.wirne.catandice.feature.settings.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -11,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.wirne.catandice.R
 import com.wirne.catandice.ui.theme.*
 
@@ -21,12 +27,12 @@ fun RandomPercentageSelector(
 ) {
     Column {
 
-        var selectedPercentage by remember { mutableStateOf(percentage.toFloat()) }
+        var selectedPercentage by remember { mutableFloatStateOf(percentage.toFloat()) }
         var showInfo: Boolean by remember { mutableStateOf(false) }
 
         if (showInfo) {
             Dialog(
-                onDismissRequest = { showInfo = false }
+                onDismissRequest = { showInfo = false },
             ) {
                 Text(
                     modifier = Modifier

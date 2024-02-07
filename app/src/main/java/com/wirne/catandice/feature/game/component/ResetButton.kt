@@ -7,10 +7,10 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProvideTextStyle
-import androidx.compose.material.Text
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -25,13 +25,13 @@ fun ResetButton(
     val toast = rememberResetToast()
 
     ProvideTextStyle(
-        value = MaterialTheme.typography.button
+        value = MaterialTheme.typography.bodyMedium
     ) {
         Text(
             modifier = Modifier
                 .border(
                     shape = MaterialTheme.shapes.small,
-                    border = ButtonDefaults.outlinedBorder,
+                    border = ButtonDefaults.outlinedButtonBorder,
                 )
                 .combinedClickable(
                     onLongClick = reset,

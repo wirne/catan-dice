@@ -1,13 +1,26 @@
 package com.wirne.catandice.feature.game.component
 
 import android.os.VibrationEffect
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.AnchoredDraggableState
+import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.gestures.anchoredDraggable
+import androidx.compose.foundation.gestures.animateTo
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +42,7 @@ object ShipDefaults {
     val AnchorSize = 8.dp
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Ship(
     modifier: Modifier,
@@ -38,7 +51,7 @@ fun Ship(
 ) {
     val context = LocalContext.current
     val stepWidthPx: Float = with(LocalDensity.current) {
-        ShipDefaults.Width.toPx() / ShipState.values().count()
+        ShipDefaults.Width.toPx() / ShipState.entries.count()
     }
     val halfShipSizePx = with(LocalDensity.current) {
         (ShipDefaults.ShipSize.toPx() / 2).roundToInt()
@@ -47,26 +60,37 @@ fun Ship(
         (ShipDefaults.AnchorSize.toPx() / 2).roundToInt()
     }
 
-    val anchors = ShipState.values()
+    val anchors = ShipState.entries
         .mapIndexed { index, shipState ->
-            (index * stepWidthPx) to shipState
+            shipState to (index * stepWidthPx)
         }
-        .toMap()
 
-    val swipeableState = rememberSwipeableState(
-        initialValue = state,
-        confirmStateChange = {
-            onShipStateChange(it)
-            true
+    val draggableAnchors = DraggableAnchors {
+        for ((anchor, position) in anchors) {
+            anchor at position
         }
-    )
+    }
+
+    val anchorDraggableState = remember {
+        AnchoredDraggableState(
+            initialValue = state,
+            positionalThreshold = { distance -> distance * 0.5f },
+            velocityThreshold = { Float.MAX_VALUE },
+            animationSpec = spring(),
+            anchors = draggableAnchors,
+            confirmValueChange = {
+                onShipStateChange(it)
+                true
+            }
+        )
+    }
 
     LaunchedEffect(state) {
-        if (state != swipeableState.currentValue) {
-            swipeableState.animateTo(state)
+        if (state != anchorDraggableState.currentValue) {
+            anchorDraggableState.animateTo(state)
         }
 
-        if (state == swipeableState.currentValue && state == ShipState.Eight) {
+        if (state == anchorDraggableState.currentValue && state == ShipState.Eight) {
             context.vibrator.vibrate(
                 VibrationEffect.createOneShot(
                     500,
@@ -92,7 +116,7 @@ fun Ship(
                 .background(CDColor.Red)
         )
 
-        anchors.forEach { (offset, shipState) ->
+        anchors.forEach { (shipState, offset) ->
             val padding = if (shipState == ShipState.Eight) 4.dp else 0.dp
             val halfPaddingPx = with(LocalDensity.current) {
                 (padding.toPx() / 2).roundToInt()
@@ -115,11 +139,9 @@ fun Ship(
 
         Icon(
             modifier = Modifier
-                .offset { IntOffset(swipeableState.offset.value.roundToInt(), 0) }
-                .swipeable(
-                    state = swipeableState,
-                    anchors = anchors,
-                    thresholds = { _, _ -> FractionalThreshold(0.3f) },
+                .offset { IntOffset(anchorDraggableState.offset.roundToIntOrZero(), 0) }
+                .anchoredDraggable(
+                    state = anchorDraggableState,
                     orientation = Orientation.Horizontal
                 )
                 .size(ShipDefaults.ShipSize),
@@ -128,4 +150,10 @@ fun Ship(
             contentDescription = null
         )
     }
+}
+
+private fun Float.roundToIntOrZero(): Int = try {
+    roundToInt()
+} catch (e: Exception) {
+    0
 }

@@ -3,10 +3,13 @@ package com.wirne.catandice.feature.game
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
-import androidx.compose.material.TopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,6 +50,7 @@ fun GameScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun GameScreen(
     state: State,
@@ -65,44 +69,45 @@ private fun GameScreen(
             val (shipRef, dicesRef, rollButtonRef) = createRefs()
 
             TopAppBar(
-                backgroundColor = Color.Transparent,
-                elevation = 0.dp
-            ) {
+                title = { },
+                colors = TopAppBarDefaults.topAppBarColors(),
+                actions = {
 
-                AnimatedVisibility(
-                    visible = state.diceRollHistory.isNotEmpty()
-                ) {
-                    ResetButton(
-                        reset = { dispatch(Event.Reset) }
-                    )
-                }
+                    AnimatedVisibility(
+                        visible = state.diceRollHistory.isNotEmpty()
+                    ) {
+                        ResetButton(
+                            reset = { dispatch(Event.Reset) }
+                        )
+                    }
 
-                Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.weight(1f))
 
-                AnimatedVisibility(
-                    visible = state.diceRollHistory.isNotEmpty()
-                ) {
+                    AnimatedVisibility(
+                        visible = state.diceRollHistory.isNotEmpty()
+                    ) {
+                        IconButton(
+                            onClick = openStats
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_bar_chart),
+                                contentDescription = null,
+                                tint = CDColor.White87
+                            )
+                        }
+                    }
+
                     IconButton(
-                        onClick = openStats
+                        onClick = openSettings
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_bar_chart),
+                            painter = painterResource(id = R.drawable.ic_settings),
                             contentDescription = null,
                             tint = CDColor.White87
                         )
                     }
                 }
-
-                IconButton(
-                    onClick = openSettings
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_settings),
-                        contentDescription = null,
-                        tint = CDColor.White87
-                    )
-                }
-            }
+            )
 
             if (lastDiceRoll != null) {
                 Dices(
