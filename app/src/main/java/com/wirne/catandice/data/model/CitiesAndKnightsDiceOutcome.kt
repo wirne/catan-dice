@@ -9,15 +9,18 @@ enum class CitiesAndKnightsDiceOutcome {
     Ship3,
     Blue,
     Yellow,
-    Green;
+    Green,
+    ;
 
-    fun isShip(): Boolean = when (this) {
-        Ship1,
-        Ship2,
-        Ship3 -> true
+    fun isShip(): Boolean =
+        when (this) {
+            Ship1,
+            Ship2,
+            Ship3,
+            -> true
 
-        Blue -> false
-        Yellow -> false
-        Green -> false
-    }
+            Blue -> false
+            Yellow -> false
+            Green -> false
+        }
 }

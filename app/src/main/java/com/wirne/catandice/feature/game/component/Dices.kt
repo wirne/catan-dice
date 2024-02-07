@@ -21,9 +21,8 @@ import com.wirne.catandice.feature.game.DiceRoll
 fun Dices(
     modifier: Modifier,
     diceRoll: DiceRoll,
-    knightsAndCitiesEnabled: Boolean
+    knightsAndCitiesEnabled: Boolean,
 ) {
-
     val rotation = remember { Animatable(0f) }
     val isPreview = LocalInspectionMode.current
     val context = LocalContext.current
@@ -35,15 +34,16 @@ fun Dices(
         if (diceRoll.turn == currentTurn) return@LaunchedEffect
         if (isPreview) return@LaunchedEffect
 
-        val effect = if (diceRoll.twoDiceOutcome.sum == TwoDiceSum.Seven) {
-            VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE)
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                VibrationEffect.createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK)
+        val effect =
+            if (diceRoll.twoDiceOutcome.sum == TwoDiceSum.Seven) {
+                VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE)
             } else {
-                VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    VibrationEffect.createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK)
+                } else {
+                    VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE)
+                }
             }
-        }
         context.vibrator.vibrate(effect)
 
         // We have to get the diff since animations can be cancelled
@@ -51,7 +51,7 @@ fun Dices(
         val diff = rotation.value.mod(360f)
         rotation.animateTo(
             targetValue = rotation.value + 360f - diff,
-            animationSpec = tween(durationMillis = 300)
+            animationSpec = tween(durationMillis = 300),
         ) {
             currentTurn = diceRoll.turn
         }
@@ -63,7 +63,7 @@ fun Dices(
 
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         AnimatedVisibility(visible = knightsAndCitiesEnabled) {
             CitiesAndKnightsDice(
@@ -75,11 +75,10 @@ fun Dices(
         Spacer(modifier = Modifier.height(8.dp))
 
         Row {
-
             NumberDice(
                 rotation = rotation.value,
                 outcome = diceRoll.twoDiceOutcome.redDice,
-                diceColor = NumberDiceColors.Red
+                diceColor = NumberDiceColors.Red,
             )
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -87,7 +86,7 @@ fun Dices(
             NumberDice(
                 rotation = rotation.value,
                 outcome = diceRoll.twoDiceOutcome.yellowDice,
-                diceColor = NumberDiceColors.Yellow
+                diceColor = NumberDiceColors.Yellow,
             )
         }
     }

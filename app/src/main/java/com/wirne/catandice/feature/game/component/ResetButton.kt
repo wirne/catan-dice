@@ -19,33 +19,32 @@ import androidx.compose.ui.platform.LocalContext
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ResetButton(
-    reset: () -> Unit
-) {
+fun ResetButton(reset: () -> Unit) {
     val toast = rememberResetToast()
 
     ProvideTextStyle(
-        value = MaterialTheme.typography.bodyMedium
+        value = MaterialTheme.typography.bodyMedium,
     ) {
         Text(
-            modifier = Modifier
-                .border(
-                    shape = MaterialTheme.shapes.small,
-                    border = ButtonDefaults.outlinedButtonBorder,
-                )
-                .combinedClickable(
-                    onLongClick = reset,
-                    onClick = toast::show
-                )
-                .padding(ButtonDefaults.ContentPadding),
-            text = "Reset game"
+            modifier =
+                Modifier
+                    .border(
+                        shape = MaterialTheme.shapes.small,
+                        border = ButtonDefaults.outlinedButtonBorder,
+                    )
+                    .combinedClickable(
+                        onLongClick = reset,
+                        onClick = toast::show,
+                    )
+                    .padding(ButtonDefaults.ContentPadding),
+            text = "Reset game",
         )
     }
 }
 
 @Stable
 private class ResetToast(
-    context: Context
+    context: Context,
 ) {
     private var isShowingToast = false
     private val toast = Toast.makeText(context, "Long press to reset", Toast.LENGTH_SHORT)
@@ -63,7 +62,8 @@ private class ResetToast(
                         super.onToastShown()
                         isShowingToast = true
                     }
-                })
+                },
+            )
         }
     }
 
@@ -78,6 +78,6 @@ private class ResetToast(
 private fun rememberResetToast(): ResetToast {
     val context = LocalContext.current
     return remember {
-       ResetToast(context)
+        ResetToast(context)
     }
 }

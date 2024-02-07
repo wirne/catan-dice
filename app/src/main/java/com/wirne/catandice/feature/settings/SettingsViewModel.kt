@@ -4,64 +4,65 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wirne.catandice.data.repository.SettingsRepository
 import com.wirne.catandice.data.repository.TimerRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.wirne.catandice.feature.settings.SettingsContract.Effect
 import com.wirne.catandice.feature.settings.SettingsContract.Event
 import com.wirne.catandice.feature.settings.SettingsContract.State
-import com.wirne.catandice.feature.settings.SettingsContract.Effect
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
-    private val settingsRepository: SettingsRepository,
-    private val timerRepository: TimerRepository
-) : ViewModel(), SettingsContract {
-
-    override val state: StateFlow<State> =
-        combine(
-            settingsRepository.settings,
-            timerRepository.timer
-        ) { settings, timer ->
-            State(
-                randomPercentage = settings.randomPercentage,
-                citiesAndKnightsEnabled = settings.citiesAndKnightsEnabled,
-                time = timer.time,
-                timerEnabled = timer.enabled
+class SettingsViewModel
+    @Inject
+    constructor(
+        private val settingsRepository: SettingsRepository,
+        private val timerRepository: TimerRepository,
+    ) : ViewModel(), SettingsContract {
+        override val state: StateFlow<State> =
+            combine(
+                settingsRepository.settings,
+                timerRepository.timer,
+            ) { settings, timer ->
+                State(
+                    randomPercentage = settings.randomPercentage,
+                    citiesAndKnightsEnabled = settings.citiesAndKnightsEnabled,
+                    time = timer.time,
+                    timerEnabled = timer.enabled,
+                )
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = State.Initial,
             )
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Eagerly,
-            initialValue = State.Initial
-        )
 
-    override fun event(event: Event) {
-        viewModelScope.launch {
-            when (event) {
-                Event.OnTimerEnabledClicked -> onTimerEnabledClicked()
-                Event.OnCitiesAndKnightsEnabledClicked -> onCitiesAndKnightsEnabledClicked()
-                is Event.OnTimeSelected -> onTimeSelected(event.time)
-                is Event.OnPercentageSelected -> onPercentageSelected(event.percentage)
+        override fun event(event: Event) {
+            viewModelScope.launch {
+                when (event) {
+                    Event.OnTimerEnabledClicked -> onTimerEnabledClicked()
+                    Event.OnCitiesAndKnightsEnabledClicked -> onCitiesAndKnightsEnabledClicked()
+                    is Event.OnTimeSelected -> onTimeSelected(event.time)
+                    is Event.OnPercentageSelected -> onPercentageSelected(event.percentage)
+                }
             }
         }
-    }
 
-    override val effect: Flow<Effect> = emptyFlow()
+        override val effect: Flow<Effect> = emptyFlow()
 
-    private suspend fun onPercentageSelected(percentage: Int) {
-        settingsRepository.updateRandomPercentage(percentage)
-    }
+        private suspend fun onPercentageSelected(percentage: Int) {
+            settingsRepository.updateRandomPercentage(percentage)
+        }
 
-    private suspend fun onCitiesAndKnightsEnabledClicked() {
-        settingsRepository.toggleCitiesAndKnightsEnabled()
-    }
+        private suspend fun onCitiesAndKnightsEnabledClicked() {
+            settingsRepository.toggleCitiesAndKnightsEnabled()
+        }
 
-    private suspend fun onTimerEnabledClicked() {
-        timerRepository.toggleTimerEnabled()
-    }
+        private suspend fun onTimerEnabledClicked() {
+            timerRepository.toggleTimerEnabled()
+        }
 
-    private suspend fun onTimeSelected(time: Duration) {
-        timerRepository.updateTime(time)
+        private suspend fun onTimeSelected(time: Duration) {
+            timerRepository.updateTime(time)
+        }
     }
-}

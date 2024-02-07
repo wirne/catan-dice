@@ -26,13 +26,14 @@ inline fun <reified STATE, EFFECT, EVENT> use(
     return StateEffectDispatch(
         state = state,
         effectFlow = viewModel.effect,
-        dispatch = dispatch
+        dispatch = dispatch,
     )
 }
 
 interface ViewModelContract<EVENT, EFFECT, STATE> {
     val state: StateFlow<STATE>
     val effect: Flow<EFFECT>
+
     fun event(event: EVENT)
 }
 

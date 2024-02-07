@@ -14,24 +14,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wirne.catandice.data.model.DiceOutcome
-import com.wirne.catandice.data.model.CitiesAndKnightsDiceOutcome
 import com.wirne.catandice.R
+import com.wirne.catandice.data.model.CitiesAndKnightsDiceOutcome
+import com.wirne.catandice.data.model.DiceOutcome
 import com.wirne.catandice.ui.theme.*
 
 @Immutable
 enum class NumberDiceColors(
     val background: Color,
-    val dot: Color
+    val dot: Color,
 ) {
     Red(
         background = CDColor.Red,
-        dot = CDColor.Yellow
+        dot = CDColor.Yellow,
     ),
     Yellow(
         background = CDColor.Yellow,
-        dot = CDColor.Red
-    )
+        dot = CDColor.Red,
+    ),
 }
 
 @Composable
@@ -41,24 +41,27 @@ fun CitiesAndKnightsDice(
 ) {
     CustomDice(
         background = Color.White,
-        rotation = rotation
+        rotation = rotation,
     ) {
-        val (drawableRes, color) = when (knightsAndCitiesDiceOutcome) {
-            CitiesAndKnightsDiceOutcome.Ship1,
-            CitiesAndKnightsDiceOutcome.Ship2,
-            CitiesAndKnightsDiceOutcome.Ship3 -> (R.drawable.ic_ship to Color.Black)
+        val (drawableRes, color) =
+            when (knightsAndCitiesDiceOutcome) {
+                CitiesAndKnightsDiceOutcome.Ship1,
+                CitiesAndKnightsDiceOutcome.Ship2,
+                CitiesAndKnightsDiceOutcome.Ship3,
+                -> (R.drawable.ic_ship to Color.Black)
 
-            CitiesAndKnightsDiceOutcome.Blue -> (R.drawable.ic_castle to CDColor.Blue)
-            CitiesAndKnightsDiceOutcome.Yellow -> (R.drawable.ic_castle to CDColor.LightYellow)
-            CitiesAndKnightsDiceOutcome.Green -> (R.drawable.ic_castle to CDColor.Green)
-        }
+                CitiesAndKnightsDiceOutcome.Blue -> (R.drawable.ic_castle to CDColor.Blue)
+                CitiesAndKnightsDiceOutcome.Yellow -> (R.drawable.ic_castle to CDColor.LightYellow)
+                CitiesAndKnightsDiceOutcome.Green -> (R.drawable.ic_castle to CDColor.Green)
+            }
 
         Icon(
-            modifier = Modifier
-                .size(60.dp),
+            modifier =
+                Modifier
+                    .size(60.dp),
             painter = painterResource(id = drawableRes),
             tint = color,
-            contentDescription = null
+            contentDescription = null,
         )
     }
 }
@@ -67,15 +70,15 @@ fun CitiesAndKnightsDice(
 fun NumberDice(
     rotation: Float,
     outcome: DiceOutcome,
-    diceColor: NumberDiceColors
+    diceColor: NumberDiceColors,
 ) {
     CustomDice(
         background = diceColor.background,
-        rotation = rotation
+        rotation = rotation,
     ) {
         DiceDots(
             number = outcome.number,
-            color = diceColor.dot
+            color = diceColor.dot,
         )
     }
 }
@@ -84,19 +87,20 @@ fun NumberDice(
 private fun CustomDice(
     background: Color,
     rotation: Float,
-    content: @Composable BoxScope.() -> Unit
+    content: @Composable BoxScope.() -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .size(80.dp)
-            .rotate(rotation)
-            .background(
-                color = background,
-                shape = RoundedCornerShape(12.dp)
-            )
-            .padding(12.dp),
+        modifier =
+            Modifier
+                .size(80.dp)
+                .rotate(rotation)
+                .background(
+                    color = background,
+                    shape = RoundedCornerShape(12.dp),
+                )
+                .padding(12.dp),
         contentAlignment = Alignment.Center,
-        content = content
+        content = content,
     )
 }
 
@@ -109,32 +113,32 @@ private fun PreviewNumberDice() {
                 NumberDice(
                     outcome = DiceOutcome.One,
                     diceColor = NumberDiceColors.Red,
-                    rotation = 0f
+                    rotation = 0f,
                 )
                 NumberDice(
                     outcome = DiceOutcome.Two,
                     diceColor = NumberDiceColors.Yellow,
-                    rotation = 0f
+                    rotation = 0f,
                 )
                 NumberDice(
                     outcome = DiceOutcome.Three,
                     diceColor = NumberDiceColors.Red,
-                    rotation = 0f
+                    rotation = 0f,
                 )
                 NumberDice(
                     outcome = DiceOutcome.Four,
                     diceColor = NumberDiceColors.Yellow,
-                    rotation = 0f
+                    rotation = 0f,
                 )
                 NumberDice(
                     outcome = DiceOutcome.Five,
                     diceColor = NumberDiceColors.Red,
-                    rotation = 0f
+                    rotation = 0f,
                 )
                 NumberDice(
                     outcome = DiceOutcome.Six,
                     diceColor = NumberDiceColors.Yellow,
-                    rotation = 0f
+                    rotation = 0f,
                 )
             }
         }
@@ -149,19 +153,19 @@ private fun PreviewCitiesAndKnights() {
             Column {
                 CitiesAndKnightsDice(
                     rotation = 0f,
-                    knightsAndCitiesDiceOutcome = CitiesAndKnightsDiceOutcome.Green
+                    knightsAndCitiesDiceOutcome = CitiesAndKnightsDiceOutcome.Green,
                 )
                 CitiesAndKnightsDice(
                     rotation = 0f,
-                    knightsAndCitiesDiceOutcome = CitiesAndKnightsDiceOutcome.Blue
+                    knightsAndCitiesDiceOutcome = CitiesAndKnightsDiceOutcome.Blue,
                 )
                 CitiesAndKnightsDice(
                     rotation = 0f,
-                    knightsAndCitiesDiceOutcome = CitiesAndKnightsDiceOutcome.Yellow
+                    knightsAndCitiesDiceOutcome = CitiesAndKnightsDiceOutcome.Yellow,
                 )
                 CitiesAndKnightsDice(
                     rotation = 0f,
-                    knightsAndCitiesDiceOutcome = CitiesAndKnightsDiceOutcome.Ship1
+                    knightsAndCitiesDiceOutcome = CitiesAndKnightsDiceOutcome.Ship1,
                 )
             }
         }

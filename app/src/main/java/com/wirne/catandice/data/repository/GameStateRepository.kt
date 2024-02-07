@@ -3,8 +3,8 @@ package com.wirne.catandice.data.repository
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import com.wirne.catandice.data.model.GameState
 import com.wirne.catandice.data.model.CitiesAndKnightsDiceOutcome
+import com.wirne.catandice.data.model.GameState
 import com.wirne.catandice.data.model.ShipState
 import com.wirne.catandice.data.model.TwoDiceOutcome
 import com.wirne.catandice.datastore.*
@@ -20,81 +20,84 @@ private const val DATA_STORE_FILE_NAME = "persisted_game_state.proto"
 
 private val Context.gameStateStore: DataStore<PersistedGameState> by dataStore(
     fileName = DATA_STORE_FILE_NAME,
-    serializer = GameStateSerializer
+    serializer = GameStateSerializer,
 )
 
 @Singleton
-class GameStateRepository @Inject constructor(
-    @ApplicationContext private val context: Context
-) {
-    val gameState: Flow<GameState> = context.gameStateStore.data
-        .map { it.toGameState() }
-
-    suspend fun reset() {
-        context.gameStateStore.updateData {
-            PersistedGameState.getDefaultInstance()
-        }
-    }
-
-    suspend fun updateShipState(state: ShipState) {
-        context.gameStateStore.updateData {
-            it.toBuilder()
-                .setShipState(state.toPersistedShipState())
-                .build()
-        }
-    }
-
-    private suspend fun resetTwoDiceEntropy() {
-        context.gameStateStore.updateData {
-            it.toBuilder()
-                .clearTwoDiceOutcomes()
-                .addAllTwoDiceOutcomes(
-                    TwoDiceOutcome.values().map { it.toPersistedTwoDiceOutcome() })
-                .build()
-        }
-    }
-
-    suspend fun takeRandomTwoDiceOutcome(): TwoDiceOutcome {
-        if (context.gameStateStore.data.first().twoDiceOutcomesList.isEmpty()) {
-            resetTwoDiceEntropy()
-        }
-        var randomTwoDiceOutcome: TwoDiceOutcome = TwoDiceOutcome.values().random()
-
-        context.gameStateStore.updateData {
-            val persistedTwoDiceOutcomes = it.twoDiceOutcomesList.toList()
-            val randomPersistedTwoDiceOutcome = persistedTwoDiceOutcomes.random()
-            randomTwoDiceOutcome = randomPersistedTwoDiceOutcome.toTwoDiceOutcomeOrNull() ?: randomTwoDiceOutcome
-
-            it.toBuilder()
-                .clearTwoDiceOutcomes()
-                .addAllTwoDiceOutcomes(persistedTwoDiceOutcomes.minus(randomPersistedTwoDiceOutcome))
-                .build()
-        }
-
-        return randomTwoDiceOutcome
-    }
-
-    suspend fun addToHistory(
-        twoDiceOutcome: TwoDiceOutcome,
-        citiesAndKnightsDiceOutcome: CitiesAndKnightsDiceOutcome,
-        random: Boolean
+class GameStateRepository
+    @Inject
+    constructor(
+        @ApplicationContext private val context: Context,
     ) {
-        context.gameStateStore.updateData {
-            val turn = (it.historyList.lastOrNull()?.turn ?: 0) + 1
-            it.toBuilder()
-                .addHistory(
-                    PersistedDiceRoll.newBuilder()
-                        .setTurn(turn)
-                        .setCitiesAndKnightsDiceOutcome(citiesAndKnightsDiceOutcome.toPersistedCitiesAndKnightsDiceOutcome())
-                        .setTwoDiceOutcome(twoDiceOutcome.toPersistedTwoDiceOutcome())
-                        .setRandom(random)
-                        .build()
-                )
-                .build()
+        val gameState: Flow<GameState> =
+            context.gameStateStore.data
+                .map { it.toGameState() }
 
+        suspend fun reset() {
+            context.gameStateStore.updateData {
+                PersistedGameState.getDefaultInstance()
+            }
+        }
+
+        suspend fun updateShipState(state: ShipState) {
+            context.gameStateStore.updateData {
+                it.toBuilder()
+                    .setShipState(state.toPersistedShipState())
+                    .build()
+            }
+        }
+
+        private suspend fun resetTwoDiceEntropy() {
+            context.gameStateStore.updateData {
+                it.toBuilder()
+                    .clearTwoDiceOutcomes()
+                    .addAllTwoDiceOutcomes(
+                        TwoDiceOutcome.values().map { it.toPersistedTwoDiceOutcome() },
+                    )
+                    .build()
+            }
+        }
+
+        suspend fun takeRandomTwoDiceOutcome(): TwoDiceOutcome {
+            if (context.gameStateStore.data.first().twoDiceOutcomesList.isEmpty()) {
+                resetTwoDiceEntropy()
+            }
+            var randomTwoDiceOutcome: TwoDiceOutcome = TwoDiceOutcome.values().random()
+
+            context.gameStateStore.updateData {
+                val persistedTwoDiceOutcomes = it.twoDiceOutcomesList.toList()
+                val randomPersistedTwoDiceOutcome = persistedTwoDiceOutcomes.random()
+                randomTwoDiceOutcome = randomPersistedTwoDiceOutcome.toTwoDiceOutcomeOrNull() ?: randomTwoDiceOutcome
+
+                it.toBuilder()
+                    .clearTwoDiceOutcomes()
+                    .addAllTwoDiceOutcomes(persistedTwoDiceOutcomes.minus(randomPersistedTwoDiceOutcome))
+                    .build()
+            }
+
+            return randomTwoDiceOutcome
+        }
+
+        suspend fun addToHistory(
+            twoDiceOutcome: TwoDiceOutcome,
+            citiesAndKnightsDiceOutcome: CitiesAndKnightsDiceOutcome,
+            random: Boolean,
+        ) {
+            context.gameStateStore.updateData {
+                val turn = (it.historyList.lastOrNull()?.turn ?: 0) + 1
+                it.toBuilder()
+                    .addHistory(
+                        PersistedDiceRoll.newBuilder()
+                            .setTurn(turn)
+                            .setCitiesAndKnightsDiceOutcome(citiesAndKnightsDiceOutcome.toPersistedCitiesAndKnightsDiceOutcome())
+                            .setTwoDiceOutcome(twoDiceOutcome.toPersistedTwoDiceOutcome())
+                            .setRandom(random)
+                            .build(),
+                    )
+                    .build()
+            }
         }
     }
-}
 
 private fun CitiesAndKnightsDiceOutcome.toPersistedCitiesAndKnightsDiceOutcome(): PersistedCitiesAndKnightsDiceOutcome =
     when (this) {
@@ -107,27 +110,30 @@ private fun CitiesAndKnightsDiceOutcome.toPersistedCitiesAndKnightsDiceOutcome()
     }
 
 private fun PersistedGameState.toGameState(): GameState {
-    val history = historyList.mapNotNull {
-        DiceRoll(
-            twoDiceOutcome = it.twoDiceOutcome.toTwoDiceOutcomeOrNull() ?: return@mapNotNull null,
-            citiesAndKnightsDiceOutcome = it.citiesAndKnightsDiceOutcome.toCitiesAndKnightsDiceOutcomeOrNull()
-                ?: return@mapNotNull null,
-            turn = it.turn,
-            random = it.random
-        )
-    }
+    val history =
+        historyList.mapNotNull {
+            DiceRoll(
+                twoDiceOutcome = it.twoDiceOutcome.toTwoDiceOutcomeOrNull() ?: return@mapNotNull null,
+                citiesAndKnightsDiceOutcome =
+                    it.citiesAndKnightsDiceOutcome.toCitiesAndKnightsDiceOutcomeOrNull()
+                        ?: return@mapNotNull null,
+                turn = it.turn,
+                random = it.random,
+            )
+        }
 
     return GameState(
         rollHistory = history,
         twoDiceEntropy = twoDiceOutcomesList.mapNotNull { it.toTwoDiceOutcomeOrNull() },
-        shipState = shipState.toShipState()
+        shipState = shipState.toShipState(),
     )
 }
 
 private fun PersistedShipState.toShipState(): ShipState =
     when (this) {
         PersistedShipState.One,
-        PersistedShipState.UNRECOGNIZED -> ShipState.One
+        PersistedShipState.UNRECOGNIZED,
+        -> ShipState.One
 
         PersistedShipState.Two -> ShipState.Two
         PersistedShipState.Three -> ShipState.Three
@@ -201,7 +207,6 @@ private fun PersistedTwoDiceOutcome.toTwoDiceOutcomeOrNull(): TwoDiceOutcome? =
         PersistedTwoDiceOutcome.SixSix -> TwoDiceOutcome.SixSix
         PersistedTwoDiceOutcome.UNRECOGNIZED -> null
     }
-
 
 private fun TwoDiceOutcome.toPersistedTwoDiceOutcome(): PersistedTwoDiceOutcome =
     when (this) {

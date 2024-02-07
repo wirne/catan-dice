@@ -15,10 +15,9 @@ import kotlin.time.Duration.Companion.seconds
 @Composable
 fun TimerSelector(
     time: Duration,
-    onTimeSelected: (Duration) -> Unit
+    onTimeSelected: (Duration) -> Unit,
 ) {
     Column {
-
         var selectedTime by remember { mutableStateOf(time) }
 
         Text(text = "Timer: $selectedTime")
@@ -35,10 +34,11 @@ fun TimerSelector(
             },
             // up to 10 minutes
             valueRange = 10f.rangeTo(600f),
-            colors = SliderDefaults.colors(
-                thumbColor = CDColor.Yellow,
-                activeTrackColor = CDColor.Red
-            )
+            colors =
+                SliderDefaults.colors(
+                    thumbColor = CDColor.Yellow,
+                    activeTrackColor = CDColor.Red,
+                ),
         )
     }
 }
@@ -50,7 +50,7 @@ private fun Preview() {
         Surface {
             TimerSelector(
                 time = 100.seconds,
-                onTimeSelected = { }
+                onTimeSelected = { },
             )
         }
     }

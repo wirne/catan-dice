@@ -7,5 +7,5 @@ import kotlin.time.Duration
 data class Timer(
     val time: Duration,
     val timeLeft: Duration,
-    val enabled: Boolean
+    val enabled: Boolean,
 )

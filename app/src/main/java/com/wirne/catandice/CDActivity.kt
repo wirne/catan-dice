@@ -38,9 +38,8 @@ private fun CDNavHost() {
 
     NavHost(
         navController = navController,
-        startDestination = "game"
+        startDestination = "game",
     ) {
-
         composable(route = "game") {
             GameScreen(
                 openSettings = {
@@ -48,7 +47,7 @@ private fun CDNavHost() {
                 },
                 openStats = {
                     navController.navigate(route = "stats")
-                }
+                },
             )
         }
 

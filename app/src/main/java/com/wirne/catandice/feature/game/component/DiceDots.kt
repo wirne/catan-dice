@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun BoxScope.DiceDots(
     number: Number,
-    color: Color
+    color: Color,
 ) {
     when (number) {
         1 -> DiceDotsOne(color = color)
@@ -29,16 +29,17 @@ fun BoxScope.DiceDots(
 @Composable
 private fun BoxScope.Dot(
     alignment: Alignment,
-    color: Color
+    color: Color,
 ) {
     Box(
-        modifier = Modifier
-            .align(alignment)
-            .size(16.dp)
-            .background(
-                color = color,
-                shape = CircleShape
-            )
+        modifier =
+            Modifier
+                .align(alignment)
+                .size(16.dp)
+                .background(
+                    color = color,
+                    shape = CircleShape,
+                ),
     )
 }
 
@@ -46,7 +47,7 @@ private fun BoxScope.Dot(
 private fun BoxScope.DiceDotsOne(color: Color) {
     Dot(
         alignment = Alignment.Center,
-        color = color
+        color = color,
     )
 }
 
@@ -54,11 +55,11 @@ private fun BoxScope.DiceDotsOne(color: Color) {
 private fun BoxScope.DiceDotsTwo(color: Color) {
     Dot(
         alignment = Alignment.TopStart,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.BottomEnd,
-        color = color
+        color = color,
     )
 }
 
@@ -66,15 +67,15 @@ private fun BoxScope.DiceDotsTwo(color: Color) {
 private fun BoxScope.DiceDotsThree(color: Color) {
     Dot(
         alignment = Alignment.TopStart,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.Center,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.BottomEnd,
-        color = color
+        color = color,
     )
 }
 
@@ -82,19 +83,19 @@ private fun BoxScope.DiceDotsThree(color: Color) {
 private fun BoxScope.DiceDotsFour(color: Color) {
     Dot(
         alignment = Alignment.TopStart,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.BottomStart,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.TopEnd,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.BottomEnd,
-        color = color
+        color = color,
     )
 }
 
@@ -102,23 +103,23 @@ private fun BoxScope.DiceDotsFour(color: Color) {
 private fun BoxScope.DiceDotsFive(color: Color) {
     Dot(
         alignment = Alignment.TopStart,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.BottomStart,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.Center,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.TopEnd,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.BottomEnd,
-        color = color
+        color = color,
     )
 }
 
@@ -126,26 +127,26 @@ private fun BoxScope.DiceDotsFive(color: Color) {
 private fun BoxScope.DiceDotsSix(color: Color) {
     Dot(
         alignment = Alignment.TopStart,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.CenterStart,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.BottomStart,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.TopEnd,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.CenterEnd,
-        color = color
+        color = color,
     )
     Dot(
         alignment = Alignment.BottomEnd,
-        color = color
+        color = color,
     )
 }

@@ -11,14 +11,16 @@ import com.wirne.catandice.ui.theme.CDTheme
 
 @Composable
 fun Image() {
-    val (width, height) = with(LocalDensity.current) {
-        7000.toDp() to 5000.toDp()
-    }
+    val (width, height) =
+        with(LocalDensity.current) {
+            7000.toDp() to 5000.toDp()
+        }
     androidx.compose.foundation.Image(
-        modifier = Modifier
-            .size(width, height),
+        modifier =
+            Modifier
+                .size(width, height),
         painter = painterResource(id = R.drawable.ic_dices),
-        contentDescription = null
+        contentDescription = null,
     )
 }
 

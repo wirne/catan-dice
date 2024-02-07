@@ -15,9 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
-import com.wirne.catandice.feature.timer.FloatingTimerContract.State
-import com.wirne.catandice.feature.timer.FloatingTimerContract.Event
-import com.wirne.catandice.feature.timer.FloatingTimerContract.Effect
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,6 +25,9 @@ import com.wirne.catandice.R
 import com.wirne.catandice.common.collectInLaunchedEffect
 import com.wirne.catandice.common.use
 import com.wirne.catandice.common.vibrator
+import com.wirne.catandice.feature.timer.FloatingTimerContract.Effect
+import com.wirne.catandice.feature.timer.FloatingTimerContract.Event
+import com.wirne.catandice.feature.timer.FloatingTimerContract.State
 import com.wirne.catandice.ui.theme.CDColor
 import com.wirne.catandice.ui.theme.CDTheme
 import kotlinx.coroutines.flow.Flow
@@ -38,17 +38,14 @@ import kotlin.time.Duration.Companion.seconds
 private const val MAX_AMPLITUDE = 255
 
 @Composable
-fun FloatingTimer(
-    viewModel: FloatingTimerViewModel = hiltViewModel()
-) {
-
+fun FloatingTimer(viewModel: FloatingTimerViewModel = hiltViewModel()) {
     val (state, effectFlow, dispatch) = use(viewModel)
 
     if (state.enabled && state.gotHistory) {
         FloatingTimerImpl(
             state = state,
             dispatch = dispatch,
-            effectFlow = effectFlow
+            effectFlow = effectFlow,
         )
     }
 }
@@ -57,9 +54,8 @@ fun FloatingTimer(
 private fun FloatingTimerImpl(
     state: State,
     dispatch: (Event) -> Unit,
-    effectFlow: Flow<Effect>
+    effectFlow: Flow<Effect>,
 ) {
-
     val isPreview = LocalInspectionMode.current
     var offsetX by remember { mutableFloatStateOf(if (isPreview) 0f else 50f) }
     var offsetY by remember { mutableFloatStateOf(if (isPreview) 0f else 200f) }
@@ -71,71 +67,71 @@ private fun FloatingTimerImpl(
                 context.vibrator.vibrate(
                     VibrationEffect.createOneShot(
                         2_000,
-                        MAX_AMPLITUDE
-                    )
+                        MAX_AMPLITUDE,
+                    ),
                 )
             }
         }
     }
 
     Surface(
-        modifier = Modifier
-            .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
-            .pointerInput(Unit) {
-                detectDragGestures { change, dragAmount ->
-                    change.consume()
-                    offsetX += dragAmount.x
-                    offsetY += dragAmount.y
-                }
-            },
+        modifier =
+            Modifier
+                .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
+                .pointerInput(Unit) {
+                    detectDragGestures { change, dragAmount ->
+                        change.consume()
+                        offsetX += dragAmount.x
+                        offsetY += dragAmount.y
+                    }
+                },
         border = BorderStroke(1.dp, CDColor.White40),
-        color = CDColor.Grey
+        color = CDColor.Grey,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp),
+                modifier =
+                    Modifier
+                        .padding(horizontal = 16.dp),
                 textAlign = TextAlign.Center,
                 text = state.timeLeft.toString(),
-                color = if (state.timeLeft < 30.seconds) Color.Red else CDColor.White87
+                color = if (state.timeLeft < 30.seconds) Color.Red else CDColor.White87,
             )
 
             Row {
-
                 Spacer(modifier = Modifier.width(4.dp))
 
                 IconButton(
-                    onClick = { dispatch(Event.OnPlayTimer) }
+                    onClick = { dispatch(Event.OnPlayTimer) },
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_play),
                         contentDescription = "Play",
-                        tint = CDColor.White87
+                        tint = CDColor.White87,
                     )
                 }
 
                 IconButton(
-                    onClick = { dispatch(Event.OnPauseTimer) }
+                    onClick = { dispatch(Event.OnPauseTimer) },
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_pause),
                         contentDescription = "Pause",
-                        tint = CDColor.White87
+                        tint = CDColor.White87,
                     )
                 }
 
                 IconButton(
-                    onClick = { dispatch(Event.OnStopTimer) }
+                    onClick = { dispatch(Event.OnStopTimer) },
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_stop),
                         contentDescription = "Stop",
-                        tint = CDColor.White87
+                        tint = CDColor.White87,
                     )
                 }
             }
@@ -148,14 +144,15 @@ private fun FloatingTimerImpl(
 private fun Preview() {
     CDTheme {
         FloatingTimerImpl(
-            state = State(
-                timeLeft = 100.seconds,
-                enabled = true,
-                running = true,
-                gotHistory = true
-            ),
+            state =
+                State(
+                    timeLeft = 100.seconds,
+                    enabled = true,
+                    running = true,
+                    gotHistory = true,
+                ),
             dispatch = { },
-            effectFlow = emptyFlow()
+            effectFlow = emptyFlow(),
         )
     }
 }

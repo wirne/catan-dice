@@ -9,5 +9,5 @@ enum class DiceOutcome(val number: Int) {
     Three(3),
     Four(4),
     Five(5),
-    Six(6)
+    Six(6),
 }

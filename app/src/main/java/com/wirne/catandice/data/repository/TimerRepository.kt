@@ -18,51 +18,54 @@ private const val DATA_STORE_FILE_NAME = "persisted_timer.proto"
 
 private val Context.timerStore: DataStore<PersistedTimer> by dataStore(
     fileName = DATA_STORE_FILE_NAME,
-    serializer = PersistedTimerSerializer
+    serializer = PersistedTimerSerializer,
 )
 
 @Singleton
-class TimerRepository @Inject constructor(
-    @ApplicationContext private val context: Context
-) {
-    val timer: Flow<Timer> = context.timerStore.data.map {
-        Timer(
-            time = it.timeInSeconds.seconds,
-            timeLeft = it.timeLeftInSeconds.seconds,
-            enabled = it.timerEnabled
-        )
-    }
+class TimerRepository
+    @Inject
+    constructor(
+        @ApplicationContext private val context: Context,
+    ) {
+        val timer: Flow<Timer> =
+            context.timerStore.data.map {
+                Timer(
+                    time = it.timeInSeconds.seconds,
+                    timeLeft = it.timeLeftInSeconds.seconds,
+                    enabled = it.timerEnabled,
+                )
+            }
 
-    suspend fun resetTimer() {
-        context.timerStore.updateData {
-            it.toBuilder()
-                .setTimeLeftInSeconds(it.timeInSeconds)
-                .build()
+        suspend fun resetTimer() {
+            context.timerStore.updateData {
+                it.toBuilder()
+                    .setTimeLeftInSeconds(it.timeInSeconds)
+                    .build()
+            }
+        }
+
+        suspend fun updateTime(time: Duration) {
+            context.timerStore.updateData {
+                it.toBuilder()
+                    .setTimeInSeconds(time.inWholeSeconds)
+                    .setTimeLeftInSeconds(time.inWholeSeconds)
+                    .build()
+            }
+        }
+
+        suspend fun updateTimeLeft(timeLeft: Duration) {
+            context.timerStore.updateData {
+                it.toBuilder()
+                    .setTimeLeftInSeconds(timeLeft.inWholeSeconds)
+                    .build()
+            }
+        }
+
+        suspend fun toggleTimerEnabled() {
+            context.timerStore.updateData {
+                it.toBuilder()
+                    .setTimerEnabled(!it.timerEnabled)
+                    .build()
+            }
         }
     }
-
-    suspend fun updateTime(time: Duration) {
-        context.timerStore.updateData {
-            it.toBuilder()
-                .setTimeInSeconds(time.inWholeSeconds)
-                .setTimeLeftInSeconds(time.inWholeSeconds)
-                .build()
-        }
-    }
-
-    suspend fun updateTimeLeft(timeLeft: Duration) {
-        context.timerStore.updateData {
-            it.toBuilder()
-                .setTimeLeftInSeconds(timeLeft.inWholeSeconds)
-                .build()
-        }
-    }
-
-    suspend fun toggleTimerEnabled() {
-        context.timerStore.updateData {
-            it.toBuilder()
-                .setTimerEnabled(!it.timerEnabled)
-                .build()
-        }
-    }
-}

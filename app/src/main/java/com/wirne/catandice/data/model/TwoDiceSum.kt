@@ -2,7 +2,7 @@ package com.wirne.catandice.data.model
 
 enum class TwoDiceSum(
     val sum: Int,
-    val chance: Float
+    val chance: Float,
 ) {
     Two(2, 1 / 36f),
     Three(3, 2 / 36f),
@@ -14,5 +14,5 @@ enum class TwoDiceSum(
     Nine(9, 4 / 36f),
     Ten(10, 3 / 36f),
     Eleven(11, 2 / 36f),
-    Twelve(12, 1 / 36f);
+    Twelve(12, 1 / 36f),
 }

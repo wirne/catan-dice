@@ -9,27 +9,31 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
-class StatsViewModel @Inject constructor(
-    gameStateRepository: GameStateRepository
-) : ViewModel(), StatsContract {
+class StatsViewModel
+    @Inject
+    constructor(
+        gameStateRepository: GameStateRepository,
+    ) : ViewModel(), StatsContract {
+        override val state: StateFlow<State> =
+            gameStateRepository.gameState.map { gameState ->
+                State(
+                    twoDiceSumCount =
+                        gameState.rollHistory
+                            .groupBy { it.twoDiceOutcome.sum }
+                            .mapValues { (_, history) ->
+                                Count(
+                                    totalCount = history.count(),
+                                    randomCount = history.count { it.random },
+                                )
+                            },
+                )
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = State.Initial,
+            )
 
-    override val state: StateFlow<State> = gameStateRepository.gameState.map { gameState ->
-        State(
-            twoDiceSumCount = gameState.rollHistory
-                .groupBy { it.twoDiceOutcome.sum }
-                .mapValues { (_, history) ->
-                    Count(
-                        totalCount = history.count(),
-                        randomCount = history.count { it.random }
-                    )
-                }
-        )
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Eagerly,
-        initialValue = State.Initial
-    )
+        override fun event(event: StatsContract.Event) {}
 
-    override fun event(event: StatsContract.Event) {}
-    override val effect: Flow<StatsContract.Effect> = emptyFlow()
-}
+        override val effect: Flow<StatsContract.Effect> = emptyFlow()
+    }

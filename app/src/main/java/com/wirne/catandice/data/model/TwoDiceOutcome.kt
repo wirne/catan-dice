@@ -6,7 +6,7 @@ import androidx.compose.runtime.Immutable
 enum class TwoDiceOutcome(
     val redDice: DiceOutcome,
     val yellowDice: DiceOutcome,
-    val sum: TwoDiceSum
+    val sum: TwoDiceSum,
 ) {
     OneOne(DiceOutcome.One, DiceOutcome.One, TwoDiceSum.Two),
 
@@ -53,5 +53,5 @@ enum class TwoDiceOutcome(
     SixFive(DiceOutcome.Six, DiceOutcome.Five, TwoDiceSum.Eleven),
     FiveSix(DiceOutcome.Five, DiceOutcome.Six, TwoDiceSum.Eleven),
 
-    SixSix(DiceOutcome.Six, DiceOutcome.Six, TwoDiceSum.Twelve);
+    SixSix(DiceOutcome.Six, DiceOutcome.Six, TwoDiceSum.Twelve),
 }

@@ -13,26 +13,26 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.wirne.catandice.R
+import com.wirne.catandice.common.use
 import com.wirne.catandice.feature.settings.SettingsContract.Event
 import com.wirne.catandice.feature.settings.SettingsContract.State
-import com.wirne.catandice.R
 import com.wirne.catandice.feature.settings.component.RandomPercentageSelector
 import com.wirne.catandice.feature.settings.component.SwitchRow
 import com.wirne.catandice.feature.settings.component.TimerSelector
 import com.wirne.catandice.ui.theme.CDTheme
-import com.wirne.catandice.common.use
 import kotlin.time.Duration.Companion.minutes
 
 @Composable
 fun SettingsScreen(
     onNavigationIconClick: () -> Unit,
-    viewModel: SettingsViewModel = hiltViewModel()
+    viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val (state, _, dispatch) = use(viewModel)
     SettingsScreen(
         onNavigationIconClick = onNavigationIconClick,
         state = state,
-        dispatch = dispatch
+        dispatch = dispatch,
     )
 }
 
@@ -40,24 +40,26 @@ fun SettingsScreen(
 private fun SettingsScreen(
     onNavigationIconClick: () -> Unit,
     state: State,
-    dispatch: (Event) -> Unit
+    dispatch: (Event) -> Unit,
 ) {
     Surface {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier =
+                Modifier
+                    .fillMaxSize(),
         ) {
             Column(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(horizontal = 16.dp)
-                    .requiredWidthIn(max = 400.dp)
+                modifier =
+                    Modifier
+                        .align(Alignment.Center)
+                        .padding(horizontal = 16.dp)
+                        .requiredWidthIn(max = 400.dp),
             ) {
                 RandomPercentageSelector(
                     percentage = state.randomPercentage,
                     onPercentageSelected = { percentage ->
                         dispatch(Event.OnPercentageSelected(percentage))
-                    }
+                    },
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -66,7 +68,7 @@ private fun SettingsScreen(
                     time = state.time,
                     onTimeSelected = { time ->
                         dispatch(Event.OnTimeSelected(time))
-                    }
+                    },
                 )
 
                 SwitchRow(
@@ -74,7 +76,7 @@ private fun SettingsScreen(
                     checked = state.timerEnabled,
                     onCheckedChange = {
                         dispatch(Event.OnTimerEnabledClicked)
-                    }
+                    },
                 )
 
                 SwitchRow(
@@ -82,19 +84,20 @@ private fun SettingsScreen(
                     checked = state.citiesAndKnightsEnabled,
                     onCheckedChange = {
                         dispatch(Event.OnCitiesAndKnightsEnabledClicked)
-                    }
+                    },
                 )
             }
 
             IconButton(
-                modifier = Modifier
-                    .padding(4.dp)
-                    .align(Alignment.TopStart),
-                onClick = onNavigationIconClick
+                modifier =
+                    Modifier
+                        .padding(4.dp)
+                        .align(Alignment.TopStart),
+                onClick = onNavigationIconClick,
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_back),
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
         }
@@ -107,14 +110,15 @@ private fun SettingsScreen(
 private fun Preview() {
     CDTheme {
         SettingsScreen(
-            state = State(
-                randomPercentage = 10,
-                citiesAndKnightsEnabled = true,
-                time = 10.minutes,
-                timerEnabled = true
-            ),
+            state =
+                State(
+                    randomPercentage = 10,
+                    citiesAndKnightsEnabled = true,
+                    time = 10.minutes,
+                    timerEnabled = true,
+                ),
             dispatch = { },
-            onNavigationIconClick = { }
+            onNavigationIconClick = { },
         )
     }
 }

@@ -18,11 +18,11 @@ import com.wirne.catandice.ui.theme.CDTheme
 fun SwitchRow(
     label: String,
     checked: Boolean,
-    onCheckedChange: () -> Unit
+    onCheckedChange: () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(text = label)
 
@@ -33,11 +33,12 @@ fun SwitchRow(
             onCheckedChange = {
                 onCheckedChange()
             },
-            colors = SwitchDefaults.colors(
-                checkedTrackColor = CDColor.Red,
-                checkedThumbColor = CDColor.Yellow,
-                uncheckedThumbColor = CDColor.Grey,
-            ),
+            colors =
+                SwitchDefaults.colors(
+                    checkedTrackColor = CDColor.Red,
+                    checkedThumbColor = CDColor.Yellow,
+                    uncheckedThumbColor = CDColor.Grey,
+                ),
         )
     }
 }

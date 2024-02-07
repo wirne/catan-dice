@@ -16,17 +16,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import com.wirne.catandice.R
 import com.wirne.catandice.ui.theme.*
 
 @Composable
 fun RandomPercentageSelector(
     percentage: Int,
-    onPercentageSelected: (Int) -> Unit
+    onPercentageSelected: (Int) -> Unit,
 ) {
     Column {
-
         var selectedPercentage by remember { mutableFloatStateOf(percentage.toFloat()) }
         var showInfo: Boolean by remember { mutableStateOf(false) }
 
@@ -35,35 +33,37 @@ fun RandomPercentageSelector(
                 onDismissRequest = { showInfo = false },
             ) {
                 Text(
-                    modifier = Modifier
-                        .clickable(onClick = { showInfo = false })
-                        .background(CDColor.DarkGrey)
-                        .padding(8.dp),
+                    modifier =
+                        Modifier
+                            .clickable(onClick = { showInfo = false })
+                            .background(CDColor.DarkGrey)
+                            .padding(8.dp),
                     text =
-                    """
+                        """
                         With 0% random you'll end up with the expected distribution of the two dices every 36th turn. By adding randomness you'll have a chance to roll a completely random number. 100% random is the equivalent of using real dices.
                         
                         To get a better grasp of how it works, roll the dice a couple of times and look at the statistics. Then change randomness, roll again and compare.
-                        """.trimIndent()
+                        """.trimIndent(),
                 )
             }
         }
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(text = "Random percentage: ${selectedPercentage.toInt()}%")
 
             IconButton(
-                onClick = { showInfo = true }
+                onClick = { showInfo = true },
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_info),
                     tint = CDColor.White87,
-                    contentDescription = "Info"
+                    contentDescription = "Info",
                 )
             }
         }
@@ -79,10 +79,11 @@ fun RandomPercentageSelector(
                 }
             },
             valueRange = 0f.rangeTo(100f),
-            colors = SliderDefaults.colors(
-                thumbColor = CDColor.Yellow,
-                activeTrackColor = CDColor.Red
-            )
+            colors =
+                SliderDefaults.colors(
+                    thumbColor = CDColor.Yellow,
+                    activeTrackColor = CDColor.Red,
+                ),
         )
     }
 }
@@ -94,7 +95,7 @@ private fun Preview() {
         Surface {
             RandomPercentageSelector(
                 percentage = 10,
-                onPercentageSelected = { }
+                onPercentageSelected = { },
             )
         }
     }

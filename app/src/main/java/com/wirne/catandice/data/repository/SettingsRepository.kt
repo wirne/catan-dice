@@ -16,31 +16,33 @@ private const val DATA_STORE_FILE_NAME = "persisted_settings.proto"
 
 private val Context.settingsStore: DataStore<PersistedSettings> by dataStore(
     fileName = DATA_STORE_FILE_NAME,
-    serializer = PersistedSettingsSerializer
+    serializer = PersistedSettingsSerializer,
 )
 
 @Singleton
-class SettingsRepository @Inject constructor(
-    @ApplicationContext private val context: Context
-) {
-    val settings: Flow<Settings> = context.settingsStore.data.map { it.toSettings() }
+class SettingsRepository
+    @Inject
+    constructor(
+        @ApplicationContext private val context: Context,
+    ) {
+        val settings: Flow<Settings> = context.settingsStore.data.map { it.toSettings() }
 
-    suspend fun updateRandomPercentage(randomPercentage: Int) {
-        context.settingsStore.updateData {
-            it.toBuilder()
-                .setRandomPercentage(randomPercentage)
-                .build()
+        suspend fun updateRandomPercentage(randomPercentage: Int) {
+            context.settingsStore.updateData {
+                it.toBuilder()
+                    .setRandomPercentage(randomPercentage)
+                    .build()
+            }
+        }
+
+        suspend fun toggleCitiesAndKnightsEnabled() {
+            context.settingsStore.updateData {
+                it.toBuilder()
+                    .setCitiesAndKnightsEnabled(!it.citiesAndKnightsEnabled)
+                    .build()
+            }
         }
     }
-
-    suspend fun toggleCitiesAndKnightsEnabled() {
-        context.settingsStore.updateData {
-            it.toBuilder()
-                .setCitiesAndKnightsEnabled(!it.citiesAndKnightsEnabled)
-                .build()
-        }
-    }
-}
 
 private fun PersistedSettings.toSettings(): Settings =
     Settings(

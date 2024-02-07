@@ -2,7 +2,6 @@ package com.wirne.catandice.feature.game.component
 
 import android.os.VibrationEffect
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.AnchoredDraggableState
@@ -47,43 +46,49 @@ object ShipDefaults {
 fun Ship(
     modifier: Modifier,
     state: ShipState,
-    onShipStateChange: (ShipState) -> Unit
+    onShipStateChange: (ShipState) -> Unit,
 ) {
     val context = LocalContext.current
-    val stepWidthPx: Float = with(LocalDensity.current) {
-        ShipDefaults.Width.toPx() / ShipState.entries.count()
-    }
-    val halfShipSizePx = with(LocalDensity.current) {
-        (ShipDefaults.ShipSize.toPx() / 2).roundToInt()
-    }
-    val halfAnchorSizePx = with(LocalDensity.current) {
-        (ShipDefaults.AnchorSize.toPx() / 2).roundToInt()
-    }
-
-    val anchors = ShipState.entries
-        .mapIndexed { index, shipState ->
-            shipState to (index * stepWidthPx)
+    val stepWidthPx: Float =
+        with(LocalDensity.current) {
+            ShipDefaults.Width.toPx() / ShipState.entries.count()
+        }
+    val halfShipSizePx =
+        with(LocalDensity.current) {
+            (ShipDefaults.ShipSize.toPx() / 2).roundToInt()
+        }
+    val halfAnchorSizePx =
+        with(LocalDensity.current) {
+            (ShipDefaults.AnchorSize.toPx() / 2).roundToInt()
         }
 
-    val draggableAnchors = DraggableAnchors {
-        for ((anchor, position) in anchors) {
-            anchor at position
-        }
-    }
-
-    val anchorDraggableState = remember {
-        AnchoredDraggableState(
-            initialValue = state,
-            positionalThreshold = { distance -> distance * 0.5f },
-            velocityThreshold = { Float.MAX_VALUE },
-            animationSpec = spring(),
-            anchors = draggableAnchors,
-            confirmValueChange = {
-                onShipStateChange(it)
-                true
+    val anchors =
+        ShipState.entries
+            .mapIndexed { index, shipState ->
+                shipState to (index * stepWidthPx)
             }
-        )
-    }
+
+    val draggableAnchors =
+        DraggableAnchors {
+            for ((anchor, position) in anchors) {
+                anchor at position
+            }
+        }
+
+    val anchorDraggableState =
+        remember {
+            AnchoredDraggableState(
+                initialValue = state,
+                positionalThreshold = { distance -> distance * 0.5f },
+                velocityThreshold = { Float.MAX_VALUE },
+                animationSpec = spring(),
+                anchors = draggableAnchors,
+                confirmValueChange = {
+                    onShipStateChange(it)
+                    true
+                },
+            )
+        }
 
     LaunchedEffect(state) {
         if (state != anchorDraggableState.currentValue) {
@@ -94,8 +99,8 @@ fun Ship(
             context.vibrator.vibrate(
                 VibrationEffect.createOneShot(
                     500,
-                    VibrationEffect.DEFAULT_AMPLITUDE
-                )
+                    VibrationEffect.DEFAULT_AMPLITUDE,
+                ),
             )
             delay(500)
             onShipStateChange(ShipState.One)
@@ -103,57 +108,62 @@ fun Ship(
     }
 
     Box(
-        modifier = modifier
-            .width(ShipDefaults.Width),
-        contentAlignment = Alignment.CenterStart
+        modifier =
+            modifier
+                .width(ShipDefaults.Width),
+        contentAlignment = Alignment.CenterStart,
     ) {
-
         Box(
-            modifier = Modifier
-                .width(ShipDefaults.Width - ShipDefaults.ShipSize)
-                .align(Alignment.Center)
-                .height(2.dp)
-                .background(CDColor.Red)
+            modifier =
+                Modifier
+                    .width(ShipDefaults.Width - ShipDefaults.ShipSize)
+                    .align(Alignment.Center)
+                    .height(2.dp)
+                    .background(CDColor.Red),
         )
 
         anchors.forEach { (shipState, offset) ->
             val padding = if (shipState == ShipState.Eight) 4.dp else 0.dp
-            val halfPaddingPx = with(LocalDensity.current) {
-                (padding.toPx() / 2).roundToInt()
-            }
+            val halfPaddingPx =
+                with(LocalDensity.current) {
+                    (padding.toPx() / 2).roundToInt()
+                }
 
             Box(
-                modifier = Modifier
-                    .offset {
-                        IntOffset(
-                            offset.roundToInt() + halfShipSizePx - halfAnchorSizePx - halfPaddingPx,
-                            0
-                        )
-                    }
-                    .background(CDColor.DarkRed, CircleShape)
-                    .padding(padding)
-                    .size(ShipDefaults.AnchorSize)
-                    .background(CDColor.Yellow, CircleShape)
+                modifier =
+                    Modifier
+                        .offset {
+                            IntOffset(
+                                offset.roundToInt() + halfShipSizePx - halfAnchorSizePx - halfPaddingPx,
+                                0,
+                            )
+                        }
+                        .background(CDColor.DarkRed, CircleShape)
+                        .padding(padding)
+                        .size(ShipDefaults.AnchorSize)
+                        .background(CDColor.Yellow, CircleShape),
             )
         }
 
         Icon(
-            modifier = Modifier
-                .offset { IntOffset(anchorDraggableState.offset.roundToIntOrZero(), 0) }
-                .anchoredDraggable(
-                    state = anchorDraggableState,
-                    orientation = Orientation.Horizontal
-                )
-                .size(ShipDefaults.ShipSize),
+            modifier =
+                Modifier
+                    .offset { IntOffset(anchorDraggableState.offset.roundToIntOrZero(), 0) }
+                    .anchoredDraggable(
+                        state = anchorDraggableState,
+                        orientation = Orientation.Horizontal,
+                    )
+                    .size(ShipDefaults.ShipSize),
             painter = painterResource(id = R.drawable.ic_ship),
             tint = Color.White,
-            contentDescription = null
+            contentDescription = null,
         )
     }
 }
 
-private fun Float.roundToIntOrZero(): Int = try {
-    roundToInt()
-} catch (e: Exception) {
-    0
-}
+private fun Float.roundToIntOrZero(): Int =
+    try {
+        roundToInt()
+    } catch (e: Exception) {
+        0
+    }
