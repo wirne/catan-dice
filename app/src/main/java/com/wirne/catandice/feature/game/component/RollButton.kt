@@ -35,6 +35,6 @@ fun RollButton(
     text = "Roll",
     style =
         with(LocalDensity.current) {
-            MaterialTheme.typography.headlineSmall.copy(fontSize = 24.dp.toSp()) // TODO IS THIS OK?
+            MaterialTheme.typography.headlineSmall.copy(fontSize = 24.dp.toSp())
         },
 )

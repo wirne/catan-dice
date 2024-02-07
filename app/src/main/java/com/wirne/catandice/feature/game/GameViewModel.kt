@@ -77,14 +77,14 @@ class GameViewModel
 
             val twoDiceOutcome =
                 if (shouldTakeRandom) {
-                    TwoDiceOutcome.values().random()
+                    TwoDiceOutcome.entries.random()
                 } else {
                     gameStateRepository.takeRandomTwoDiceOutcome()
                 }
 
             timerRepository.resetTimer()
 
-            val citiesAndKnightsOutcome = CitiesAndKnightsDiceOutcome.values().random()
+            val citiesAndKnightsOutcome = CitiesAndKnightsDiceOutcome.entries.random()
 
             if (citiesAndKnightsOutcome.isShip() && state.value.citiesAndKnightsEnabled) {
                 gameStateRepository.updateShipState(state.value.shipState.next())
