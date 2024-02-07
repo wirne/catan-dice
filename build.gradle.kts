@@ -8,9 +8,3 @@ plugins {
     id("com.google.protobuf") version "0.9.1" apply false
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0" apply false
 }
-
-/*
-tasks.register("clean", tasks.De) {
-    delete rootProject.buildDir
-}
- */

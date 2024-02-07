@@ -33,7 +33,7 @@ class CDActivity : ComponentActivity() {
 }
 
 @Composable
-private fun CDNavHost() {
+internal fun CDNavHost() {
     val navController = rememberNavController()
 
     NavHost(

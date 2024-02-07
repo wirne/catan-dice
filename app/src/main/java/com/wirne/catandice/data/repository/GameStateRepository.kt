@@ -52,7 +52,7 @@ class GameStateRepository
                 it.toBuilder()
                     .clearTwoDiceOutcomes()
                     .addAllTwoDiceOutcomes(
-                        TwoDiceOutcome.values().map { it.toPersistedTwoDiceOutcome() },
+                        TwoDiceOutcome.entries.map { outcome -> outcome.toPersistedTwoDiceOutcome() },
                     )
                     .build()
             }
@@ -62,7 +62,7 @@ class GameStateRepository
             if (context.gameStateStore.data.first().twoDiceOutcomesList.isEmpty()) {
                 resetTwoDiceEntropy()
             }
-            var randomTwoDiceOutcome: TwoDiceOutcome = TwoDiceOutcome.values().random()
+            var randomTwoDiceOutcome: TwoDiceOutcome = TwoDiceOutcome.entries.random()
 
             context.gameStateStore.updateData {
                 val persistedTwoDiceOutcomes = it.twoDiceOutcomesList.toList()
@@ -99,7 +99,7 @@ class GameStateRepository
         }
     }
 
-private fun CitiesAndKnightsDiceOutcome.toPersistedCitiesAndKnightsDiceOutcome(): PersistedCitiesAndKnightsDiceOutcome =
+internal fun CitiesAndKnightsDiceOutcome.toPersistedCitiesAndKnightsDiceOutcome(): PersistedCitiesAndKnightsDiceOutcome =
     when (this) {
         CitiesAndKnightsDiceOutcome.Ship1 -> PersistedCitiesAndKnightsDiceOutcome.Ship1
         CitiesAndKnightsDiceOutcome.Ship2 -> PersistedCitiesAndKnightsDiceOutcome.Ship2
@@ -109,7 +109,7 @@ private fun CitiesAndKnightsDiceOutcome.toPersistedCitiesAndKnightsDiceOutcome()
         CitiesAndKnightsDiceOutcome.Green -> PersistedCitiesAndKnightsDiceOutcome.Green
     }
 
-private fun PersistedGameState.toGameState(): GameState {
+internal fun PersistedGameState.toGameState(): GameState {
     val history =
         historyList.mapNotNull {
             DiceRoll(
@@ -144,7 +144,7 @@ private fun PersistedShipState.toShipState(): ShipState =
         PersistedShipState.Eight -> ShipState.Eight
     }
 
-private fun ShipState.toPersistedShipState(): PersistedShipState =
+internal fun ShipState.toPersistedShipState(): PersistedShipState =
     when (this) {
         ShipState.One -> PersistedShipState.One
         ShipState.Two -> PersistedShipState.Two
@@ -167,7 +167,7 @@ private fun PersistedCitiesAndKnightsDiceOutcome.toCitiesAndKnightsDiceOutcomeOr
         PersistedCitiesAndKnightsDiceOutcome.UNRECOGNIZED -> null
     }
 
-private fun PersistedTwoDiceOutcome.toTwoDiceOutcomeOrNull(): TwoDiceOutcome? =
+internal fun PersistedTwoDiceOutcome.toTwoDiceOutcomeOrNull(): TwoDiceOutcome? =
     when (this) {
         PersistedTwoDiceOutcome.OneOne -> TwoDiceOutcome.OneOne
         PersistedTwoDiceOutcome.TwoOne -> TwoDiceOutcome.TwoOne
@@ -208,7 +208,7 @@ private fun PersistedTwoDiceOutcome.toTwoDiceOutcomeOrNull(): TwoDiceOutcome? =
         PersistedTwoDiceOutcome.UNRECOGNIZED -> null
     }
 
-private fun TwoDiceOutcome.toPersistedTwoDiceOutcome(): PersistedTwoDiceOutcome =
+internal fun TwoDiceOutcome.toPersistedTwoDiceOutcome(): PersistedTwoDiceOutcome =
     when (this) {
         TwoDiceOutcome.OneOne -> PersistedTwoDiceOutcome.OneOne
         TwoDiceOutcome.TwoOne -> PersistedTwoDiceOutcome.TwoOne

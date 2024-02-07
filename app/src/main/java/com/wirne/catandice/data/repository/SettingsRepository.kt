@@ -44,7 +44,7 @@ class SettingsRepository
         }
     }
 
-private fun PersistedSettings.toSettings(): Settings =
+internal fun PersistedSettings.toSettings(): Settings =
     Settings(
         citiesAndKnightsEnabled = citiesAndKnightsEnabled,
         randomPercentage = randomPercentage,
