@@ -3,8 +3,8 @@ package com.wirne.catandice.feature.settings
 import com.wirne.catandice.common.ViewModelContract
 import kotlin.time.Duration
 
-interface SettingsContract :
-    ViewModelContract<SettingsContract.Event, SettingsContract.State> {
+interface SettingsContract : ViewModelContract<SettingsContract.Event, SettingsContract.State> {
+
     sealed class Event {
         data class OnPercentageSelected(val percentage: Int) : Event()
 
@@ -22,13 +22,12 @@ interface SettingsContract :
         val timerEnabled: Boolean,
     ) {
         companion object {
-            val Initial =
-                State(
-                    randomPercentage = 0,
-                    citiesAndKnightsEnabled = false,
-                    time = Duration.ZERO,
-                    timerEnabled = false,
-                )
+            val Initial = State(
+                randomPercentage = 0,
+                citiesAndKnightsEnabled = false,
+                time = Duration.ZERO,
+                timerEnabled = false,
+            )
         }
     }
 }

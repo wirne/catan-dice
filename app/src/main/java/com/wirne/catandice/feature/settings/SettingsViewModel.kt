@@ -20,22 +20,21 @@ class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
     private val timerRepository: TimerRepository,
 ) : ViewModel(), SettingsContract {
-    override val state: StateFlow<State> =
-        combine(
-            settingsRepository.settings,
-            timerRepository.timer,
-        ) { settings, timer ->
-            State(
-                randomPercentage = settings.randomPercentage,
-                citiesAndKnightsEnabled = settings.citiesAndKnightsEnabled,
-                time = timer.time,
-                timerEnabled = timer.enabled,
-            )
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Eagerly,
-            initialValue = State.Initial,
+    override val state: StateFlow<State> = combine(
+        settingsRepository.settings,
+        timerRepository.timer,
+    ) { settings, timer ->
+        State(
+            randomPercentage = settings.randomPercentage,
+            citiesAndKnightsEnabled = settings.citiesAndKnightsEnabled,
+            time = timer.time,
+            timerEnabled = timer.enabled,
         )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = State.Initial,
+    )
 
     override fun event(event: Event) {
         viewModelScope.launch {

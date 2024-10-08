@@ -15,8 +15,7 @@ class StatsViewModel @Inject constructor(
     override val state: StateFlow<State> =
         gameStateRepository.gameState.map { gameState ->
             State(
-                twoDiceSumCount =
-                gameState.rollHistory
+                twoDiceSumCount = gameState.rollHistory
                     .groupBy { it.twoDiceOutcome.sum }
                     .mapValues { (_, history) ->
                         Count(

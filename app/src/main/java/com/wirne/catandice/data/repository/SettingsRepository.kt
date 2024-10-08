@@ -20,29 +20,27 @@ private val Context.settingsStore: DataStore<PersistedSettings> by dataStore(
 )
 
 @Singleton
-class SettingsRepository
-    @Inject
-    constructor(
-        @ApplicationContext private val context: Context,
-    ) {
-        val settings: Flow<Settings> = context.settingsStore.data.map { it.toSettings() }
+class SettingsRepository @Inject constructor(
+    @ApplicationContext private val context: Context,
+) {
+    val settings: Flow<Settings> = context.settingsStore.data.map { it.toSettings() }
 
-        suspend fun updateRandomPercentage(randomPercentage: Int) {
-            context.settingsStore.updateData {
-                it.toBuilder()
-                    .setRandomPercentage(randomPercentage)
-                    .build()
-            }
-        }
-
-        suspend fun toggleCitiesAndKnightsEnabled() {
-            context.settingsStore.updateData {
-                it.toBuilder()
-                    .setCitiesAndKnightsEnabled(!it.citiesAndKnightsEnabled)
-                    .build()
-            }
+    suspend fun updateRandomPercentage(randomPercentage: Int) {
+        context.settingsStore.updateData {
+            it.toBuilder()
+                .setRandomPercentage(randomPercentage)
+                .build()
         }
     }
+
+    suspend fun toggleCitiesAndKnightsEnabled() {
+        context.settingsStore.updateData {
+            it.toBuilder()
+                .setCitiesAndKnightsEnabled(!it.citiesAndKnightsEnabled)
+                .build()
+        }
+    }
+}
 
 internal fun PersistedSettings.toSettings(): Settings =
     Settings(

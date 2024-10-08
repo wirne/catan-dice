@@ -41,26 +41,26 @@ internal fun CDNavHost() {
 
     NavHost(
         navController = navController,
-        startDestination = "game",
+        startDestination = CDRoute.Game,
         exitTransition = { fadeOut(animationSpec = tween(durationMillis = 300)) },
         enterTransition = { fadeIn(animationSpec = tween(durationMillis = 300)) },
     ) {
-        composable(route = "game") {
+        composable<CDRoute.Game> {
             GameScreen(
                 openSettings = {
-                    navController.navigate(route = "settings")
+                    navController.navigate(route = CDRoute.Settings)
                 },
                 openStats = {
-                    navController.navigate(route = "stats")
+                    navController.navigate(route = CDRoute.Stats)
                 },
             )
         }
 
-        composable(route = "stats") {
+        composable<CDRoute.Stats> {
             StatsScreen(onNavigationIconClick = navController::popBackStack)
         }
 
-        composable(route = "settings") {
+        composable<CDRoute.Settings> {
             SettingsScreen(onNavigationIconClick = navController::popBackStack)
         }
     }

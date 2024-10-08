@@ -21,20 +21,18 @@ fun RollButton(
     modifier: Modifier,
     onClick: () -> Unit,
 ) = Text(
-    modifier =
-        modifier
-            .padding(16.dp)
-            .size(80.dp)
-            .background(
-                shape = CircleShape,
-                color = CDColor.Grey,
-            )
-            .clip(CircleShape)
-            .clickable(onClick = onClick)
-            .wrapContentSize(Alignment.Center),
+    modifier = modifier
+        .padding(16.dp)
+        .size(80.dp)
+        .background(
+            shape = CircleShape,
+            color = CDColor.Grey,
+        )
+        .clip(CircleShape)
+        .clickable(onClick = onClick)
+        .wrapContentSize(Alignment.Center),
     text = "Roll",
-    style =
-        with(LocalDensity.current) {
-            MaterialTheme.typography.headlineSmall.copy(fontSize = 24.dp.toSp())
-        },
+    style = with(LocalDensity.current) {
+        MaterialTheme.typography.headlineSmall.copy(fontSize = 24.dp.toSp())
+    },
 )

@@ -80,8 +80,7 @@ private fun FloatingTimerImpl(
     }
 
     Surface(
-        modifier =
-        Modifier
+        modifier = Modifier
             .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
             .pointerInput(Unit) {
                 detectDragGestures { change, dragAmount ->
@@ -99,8 +98,7 @@ private fun FloatingTimerImpl(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .padding(horizontal = 16.dp),
                 textAlign = TextAlign.Center,
                 text = state.timeLeft.toString(),

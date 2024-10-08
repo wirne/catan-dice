@@ -33,12 +33,11 @@ fun SwitchRow(
             onCheckedChange = {
                 onCheckedChange()
             },
-            colors =
-                SwitchDefaults.colors(
-                    checkedTrackColor = CDColor.Red,
-                    checkedThumbColor = CDColor.Yellow,
-                    uncheckedThumbColor = CDColor.Grey,
-                ),
+            colors = SwitchDefaults.colors(
+                checkedTrackColor = CDColor.Red,
+                checkedThumbColor = CDColor.Yellow,
+                uncheckedThumbColor = CDColor.Grey,
+            ),
         )
     }
 }

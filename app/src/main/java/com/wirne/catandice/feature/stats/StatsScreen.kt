@@ -61,9 +61,8 @@ private fun StatsScreen(
             val (xLabelRef, xValuesRef, yLabelRef, graphRef, infoBoxRef) = createRefs()
 
             IconButton(
-                modifier =
-                    Modifier
-                        .padding(4.dp),
+                modifier = Modifier
+                    .padding(4.dp),
                 onClick = onNavigationIconClick,
             ) {
                 Icon(
@@ -73,50 +72,45 @@ private fun StatsScreen(
             }
 
             YLabel(
-                modifier =
-                    Modifier.constrainAs(yLabelRef) {
-                        centerVerticallyTo(graphRef)
-                        end.linkTo(graphRef.start)
-                    },
+                modifier = Modifier.constrainAs(yLabelRef) {
+                    centerVerticallyTo(graphRef)
+                    end.linkTo(graphRef.start)
+                },
             )
 
             Graph(
-                modifier =
-                    Modifier.constrainAs(graphRef) {
-                        height = Dimension.fillToConstraints
-                        top.linkTo(parent.top, margin = 8.dp)
-                        bottom.linkTo(xValuesRef.top)
-                        centerHorizontallyTo(parent)
-                    },
+                modifier = Modifier.constrainAs(graphRef) {
+                    height = Dimension.fillToConstraints
+                    top.linkTo(parent.top, margin = 8.dp)
+                    bottom.linkTo(xValuesRef.top)
+                    centerHorizontallyTo(parent)
+                },
                 state = state,
             )
 
             XValues(
-                modifier =
-                    Modifier
-                        .constrainAs(xValuesRef) {
-                            centerHorizontallyTo(graphRef)
-                            top.linkTo(graphRef.bottom)
-                            bottom.linkTo(xLabelRef.top)
-                        },
+                modifier = Modifier
+                    .constrainAs(xValuesRef) {
+                        centerHorizontallyTo(graphRef)
+                        top.linkTo(graphRef.bottom)
+                        bottom.linkTo(xLabelRef.top)
+                    },
             )
 
             XLabel(
-                modifier =
-                    Modifier
-                        .constrainAs(xLabelRef) {
-                            centerHorizontallyTo(graphRef)
-                            bottom.linkTo(parent.bottom, margin = 8.dp)
-                        },
+                modifier = Modifier
+                    .constrainAs(xLabelRef) {
+                        centerHorizontallyTo(graphRef)
+                        bottom.linkTo(parent.bottom, margin = 8.dp)
+                    },
             )
 
             InfoBox(
-                modifier =
-                    Modifier
-                        .constrainAs(infoBoxRef) {
-                            top.linkTo(parent.top, margin = 8.dp)
-                            end.linkTo(parent.end, margin = 8.dp)
-                        },
+                modifier = Modifier
+                    .constrainAs(infoBoxRef) {
+                        top.linkTo(parent.top, margin = 8.dp)
+                        end.linkTo(parent.end, margin = 8.dp)
+                    },
                 turns = state.turns,
             )
         }
@@ -130,9 +124,8 @@ private fun XValues(modifier: Modifier) {
     ) {
         for (twoDiceSum in TwoDiceSum.entries) {
             Text(
-                modifier =
-                    Modifier
-                        .width(BarDefaults.WidthWithPadding),
+                modifier = Modifier
+                    .width(BarDefaults.WidthWithPadding),
                 textAlign = TextAlign.Center,
                 text = twoDiceSum.sum.toString(),
             )
@@ -143,9 +136,8 @@ private fun XValues(modifier: Modifier) {
 @Composable
 private fun YLabel(modifier: Modifier) {
     Text(
-        modifier =
-            modifier
-                .rotate(270f),
+        modifier = modifier
+            .rotate(270f),
         textAlign = TextAlign.Center,
         text = "Roll count",
     )
@@ -169,32 +161,30 @@ private fun InfoBox(
     var offsetY by remember { mutableFloatStateOf(0f) }
 
     Column(
-        modifier =
-            modifier
-                .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
-                .pointerInput(Unit) {
-                    detectDragGestures { change, dragAmount ->
-                        change.consume()
-                        offsetX += dragAmount.x
-                        offsetY += dragAmount.y
-                    }
+        modifier = modifier
+            .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
+            .pointerInput(Unit) {
+                detectDragGestures { change, dragAmount ->
+                    change.consume()
+                    offsetX += dragAmount.x
+                    offsetY += dragAmount.y
                 }
-                .padding(8.dp)
-                .background(CDColor.White40)
-                .padding(1.dp)
-                .background(CDColor.Grey)
-                .padding(8.dp),
+            }
+            .padding(8.dp)
+            .background(CDColor.White40)
+            .padding(1.dp)
+            .background(CDColor.Grey)
+            .padding(8.dp),
         horizontalAlignment = Alignment.End,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
-                modifier =
-                    Modifier
-                        .requiredWidth(BarDefaults.WidthWithPadding)
-                        .height(2.dp)
-                        .background(CDColor.Yellow),
+                modifier = Modifier
+                    .requiredWidth(BarDefaults.WidthWithPadding)
+                    .height(2.dp)
+                    .background(CDColor.Yellow),
             )
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -206,23 +196,22 @@ private fun InfoBox(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
-                modifier =
-                    Modifier
-                        .requiredWidth(BarDefaults.Width)
-                        .height(16.dp)
-                        .drawWithCache {
-                            onDrawWithContent {
-                                drawRect(
-                                    brush = createStripeBrush(),
-                                    style = Fill,
-                                    size =
-                                        DpSize(
-                                            width = BarDefaults.Width,
-                                            height = 16.dp,
-                                        ).toSize(),
-                                )
-                            }
-                        },
+                modifier = Modifier
+                    .requiredWidth(BarDefaults.Width)
+                    .height(16.dp)
+                    .drawWithCache {
+                        onDrawWithContent {
+                            drawRect(
+                                brush = createStripeBrush(),
+                                style = Fill,
+                                size =
+                                DpSize(
+                                    width = BarDefaults.Width,
+                                    height = 16.dp,
+                                ).toSize(),
+                            )
+                        }
+                    },
             )
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -234,11 +223,10 @@ private fun InfoBox(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
-                modifier =
-                    Modifier
-                        .requiredWidth(BarDefaults.Width)
-                        .height(16.dp)
-                        .background(CDColor.Red),
+                modifier = Modifier
+                    .requiredWidth(BarDefaults.Width)
+                    .height(16.dp)
+                    .background(CDColor.Red),
             )
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -256,11 +244,10 @@ private fun Graph(
     state: State,
 ) {
     Row(
-        modifier =
-            modifier
-                .background(CDColor.White40)
-                .padding(start = 2.dp, bottom = 2.dp)
-                .background(CDColor.Grey),
+        modifier = modifier
+            .background(CDColor.White40)
+            .padding(start = 2.dp, bottom = 2.dp)
+            .background(CDColor.Grey),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Bottom,
     ) {
@@ -291,17 +278,15 @@ private fun Bar(
     turns: Int,
 ) {
     Column(
-        modifier =
-            Modifier
-                .requiredWidth(BarDefaults.WidthWithPadding)
-                .fillMaxHeight(),
+        modifier = Modifier
+            .requiredWidth(BarDefaults.WidthWithPadding)
+            .fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Bottom,
     ) {
         BoxWithConstraints(
-            modifier =
-                Modifier
-                    .weight(1f),
+            modifier = Modifier
+                .weight(1f),
             contentAlignment = Alignment.BottomCenter,
         ) {
             val maxBarHeight = maxHeight - BarDefaults.TopSpacing
@@ -309,42 +294,39 @@ private fun Bar(
             val randomBarHeight = maxBarHeight * (count.randomCount / maxCount.toFloat())
 
             Box(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .requiredSize(width = BarDefaults.Width, height = barHeight)
-                        .background(color = CDColor.Red)
-                        .drawWithCache {
-                            onDrawWithContent {
-                                drawRect(
-                                    brush = createStripeBrush(),
-                                    style = Fill,
-                                    size =
-                                        DpSize(
-                                            width = BarDefaults.Width,
-                                            height = randomBarHeight,
-                                        ).toSize(),
-                                )
-                            }
-                        },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .requiredSize(width = BarDefaults.Width, height = barHeight)
+                    .background(color = CDColor.Red)
+                    .drawWithCache {
+                        onDrawWithContent {
+                            drawRect(
+                                brush = createStripeBrush(),
+                                style = Fill,
+                                size =
+                                DpSize(
+                                    width = BarDefaults.Width,
+                                    height = randomBarHeight,
+                                ).toSize(),
+                            )
+                        }
+                    },
             )
 
             val expectedCount = twoDiceSum.chance.times(turns)
             val expectedLineHeight = maxBarHeight * (expectedCount / maxCount.toFloat())
 
             Box(
-                modifier =
-                    Modifier
-                        .height(BarDefaults.ExpectedCountThickness)
-                        .fillMaxWidth()
-                        .offset(y = -expectedLineHeight + (BarDefaults.ExpectedCountThickness / 2))
-                        .background(CDColor.Yellow),
+                modifier = Modifier
+                    .height(BarDefaults.ExpectedCountThickness)
+                    .fillMaxWidth()
+                    .offset(y = -expectedLineHeight + (BarDefaults.ExpectedCountThickness / 2))
+                    .background(CDColor.Yellow),
             )
 
             Text(
-                modifier =
-                    Modifier
-                        .offset(y = -barHeight),
+                modifier = Modifier
+                    .offset(y = -barHeight),
                 textAlign = TextAlign.Center,
                 text = count.totalCount.toString(),
             )
@@ -366,17 +348,15 @@ private fun Density.createStripeBrush(): Brush {
     )
 }
 
-private val PreviewState =
-    State(
-        twoDiceSumCount =
-            TwoDiceSum.entries.associateWith {
-                val totalCount = Random.nextInt(10)
-                Count(
-                    totalCount = totalCount,
-                    randomCount = Random.nextInt(totalCount.coerceAtLeast(1)),
-                )
-            },
-    )
+private val PreviewState = State(
+    twoDiceSumCount = TwoDiceSum.entries.associateWith {
+        val totalCount = Random.nextInt(10)
+        Count(
+            totalCount = totalCount,
+            randomCount = Random.nextInt(totalCount.coerceAtLeast(1)),
+        )
+    },
+)
 
 @Composable
 @Preview(name = "mobile", widthDp = 891, heightDp = 411, device = Devices.AUTOMOTIVE_1024p)

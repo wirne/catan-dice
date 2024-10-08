@@ -5,8 +5,8 @@ import com.wirne.catandice.common.ViewModelContract
 import com.wirne.catandice.data.model.TwoDiceSum
 import kotlin.math.roundToInt
 
-interface StatsContract :
-    ViewModelContract<StatsContract.Event, StatsContract.State> {
+interface StatsContract : ViewModelContract<StatsContract.Event, StatsContract.State> {
+
     object Event
 
     data class State(
@@ -14,11 +14,10 @@ interface StatsContract :
     ) {
         val turns: Int = twoDiceSumCount.values.sumOf { it.totalCount }
 
-        val maxCount: Int =
-            maxOf(
-                twoDiceSumCount.values.maxOfOrNull { it.totalCount } ?: 0,
-                (TwoDiceSum.Seven.chance * turns).roundToInt(),
-            )
+        val maxCount: Int = maxOf(
+            twoDiceSumCount.values.maxOfOrNull { it.totalCount } ?: 0,
+            (TwoDiceSum.Seven.chance * turns).roundToInt(),
+        )
 
         companion object {
             val Initial = State(emptyMap())

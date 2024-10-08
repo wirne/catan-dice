@@ -34,16 +34,15 @@ fun Dices(
         if (diceRoll.turn == currentTurn) return@LaunchedEffect
         if (isPreview) return@LaunchedEffect
 
-        val effect =
-            if (diceRoll.twoDiceOutcome.sum == TwoDiceSum.Seven) {
-                VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE)
+        val effect = if (diceRoll.twoDiceOutcome.sum == TwoDiceSum.Seven) {
+            VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE)
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                VibrationEffect.createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK)
             } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    VibrationEffect.createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK)
-                } else {
-                    VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE)
-                }
+                VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE)
             }
+        }
         context.vibrator.vibrate(effect)
 
         // We have to get the diff since animations can be cancelled

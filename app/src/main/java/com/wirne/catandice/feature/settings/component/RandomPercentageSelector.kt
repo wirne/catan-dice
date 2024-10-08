@@ -33,13 +33,12 @@ fun RandomPercentageSelector(
                 onDismissRequest = { showInfo = false },
             ) {
                 Text(
-                    modifier =
-                        Modifier
-                            .clickable(onClick = { showInfo = false })
-                            .background(CDColor.DarkGrey)
-                            .padding(8.dp),
+                    modifier = Modifier
+                        .clickable(onClick = { showInfo = false })
+                        .background(CDColor.DarkGrey)
+                        .padding(8.dp),
                     text =
-                        """
+                    """
                         With 0% random you'll end up with the expected distribution of the two dices every 36th turn. By adding randomness you'll have a chance to roll a completely random number. 100% random is the equivalent of using real dices.
                         
                         To get a better grasp of how it works, roll the dice a couple of times and look at the statistics. Then change randomness, roll again and compare.
@@ -49,9 +48,8 @@ fun RandomPercentageSelector(
         }
 
         Row(
-            modifier =
-                Modifier
-                    .fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
@@ -80,10 +78,10 @@ fun RandomPercentageSelector(
             },
             valueRange = 0f.rangeTo(100f),
             colors =
-                SliderDefaults.colors(
-                    thumbColor = CDColor.Yellow,
-                    activeTrackColor = CDColor.Red,
-                ),
+            SliderDefaults.colors(
+                thumbColor = CDColor.Yellow,
+                activeTrackColor = CDColor.Red,
+            ),
         )
     }
 }

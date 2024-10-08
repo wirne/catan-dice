@@ -60,9 +60,8 @@ private fun GameScreen(
 
     Surface {
         ConstraintLayout(
-            modifier =
-                Modifier
-                    .fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize(),
         ) {
             val (shipRef, dicesRef, rollButtonRef) = createRefs()
 
@@ -111,16 +110,16 @@ private fun GameScreen(
             if (lastDiceRoll != null) {
                 Dices(
                     modifier =
-                        Modifier
-                            .constrainAs(dicesRef) {
-                                top.linkTo(parent.top)
-                                if (state.citiesAndKnightsEnabled) {
-                                    bottom.linkTo(shipRef.top)
-                                } else {
-                                    bottom.linkTo(parent.bottom)
-                                }
-                                centerHorizontallyTo(parent)
-                            },
+                    Modifier
+                        .constrainAs(dicesRef) {
+                            top.linkTo(parent.top)
+                            if (state.citiesAndKnightsEnabled) {
+                                bottom.linkTo(shipRef.top)
+                            } else {
+                                bottom.linkTo(parent.bottom)
+                            }
+                            centerHorizontallyTo(parent)
+                        },
                     diceRoll = lastDiceRoll,
                     knightsAndCitiesEnabled = state.citiesAndKnightsEnabled,
                 )
@@ -129,11 +128,11 @@ private fun GameScreen(
             if (state.citiesAndKnightsEnabled) {
                 Ship(
                     modifier =
-                        Modifier
-                            .constrainAs(shipRef) {
-                                bottom.linkTo(parent.bottom)
-                                centerHorizontallyTo(parent)
-                            },
+                    Modifier
+                        .constrainAs(shipRef) {
+                            bottom.linkTo(parent.bottom)
+                            centerHorizontallyTo(parent)
+                        },
                     state = state.shipState,
                     onShipStateChange = {
                         dispatch(Event.OnShipStateChange(it))
@@ -143,11 +142,11 @@ private fun GameScreen(
 
             RollButton(
                 modifier =
-                    Modifier
-                        .constrainAs(rollButtonRef) {
-                            end.linkTo(parent.end)
-                            centerVerticallyTo(parent)
-                        },
+                Modifier
+                    .constrainAs(rollButtonRef) {
+                        end.linkTo(parent.end)
+                        centerVerticallyTo(parent)
+                    },
                 onClick = {
                     dispatch(Event.Roll)
                 },
@@ -163,20 +162,20 @@ private fun Preview() {
     CDTheme {
         GameScreen(
             state =
-                State(
-                    diceRollHistory =
-                        listOf(
-                            DiceRoll(
-                                twoDiceOutcome = TwoDiceOutcome.FiveTwo,
-                                citiesAndKnightsDiceOutcome = CitiesAndKnightsDiceOutcome.Green,
-                                turn = 4,
-                                random = false,
-                            ),
-                        ),
-                    randomPercentage = 10,
-                    citiesAndKnightsEnabled = true,
-                    shipState = ShipState.Five,
+            State(
+                diceRollHistory =
+                listOf(
+                    DiceRoll(
+                        twoDiceOutcome = TwoDiceOutcome.FiveTwo,
+                        citiesAndKnightsDiceOutcome = CitiesAndKnightsDiceOutcome.Green,
+                        turn = 4,
+                        random = false,
+                    ),
                 ),
+                randomPercentage = 10,
+                citiesAndKnightsEnabled = true,
+                shipState = ShipState.Five,
+            ),
             dispatch = { },
             openSettings = { },
             openStats = { },
@@ -190,12 +189,12 @@ private fun PreviewEmpty() {
     CDTheme {
         GameScreen(
             state =
-                State(
-                    diceRollHistory = emptyList(),
-                    randomPercentage = 10,
-                    citiesAndKnightsEnabled = true,
-                    shipState = ShipState.Five,
-                ),
+            State(
+                diceRollHistory = emptyList(),
+                randomPercentage = 10,
+                citiesAndKnightsEnabled = true,
+                shipState = ShipState.Five,
+            ),
             dispatch = { },
             openSettings = { },
             openStats = { },

@@ -12,9 +12,9 @@ import com.wirne.catandice.data.repository.TimerRepository
 import com.wirne.catandice.feature.game.GameContract.Event
 import com.wirne.catandice.feature.game.GameContract.State
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.random.Random
@@ -63,17 +63,13 @@ class GameViewModel @Inject constructor(
     }
 
     private suspend fun roll() {
-        val shouldTakeRandom =
-            Random.nextInt(
-                until = 100,
-            ) < state.value.randomPercentage
+        val shouldTakeRandom = Random.nextInt(until = 100) < state.value.randomPercentage
 
-        val twoDiceOutcome =
-            if (shouldTakeRandom) {
-                TwoDiceOutcome.entries.random()
-            } else {
-                gameStateRepository.takeRandomTwoDiceOutcome()
-            }
+        val twoDiceOutcome = if (shouldTakeRandom) {
+            TwoDiceOutcome.entries.random()
+        } else {
+            gameStateRepository.takeRandomTwoDiceOutcome()
+        }
 
         timerRepository.resetTimer()
 

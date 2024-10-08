@@ -32,14 +32,13 @@ private fun BoxScope.Dot(
     color: Color,
 ) {
     Box(
-        modifier =
-            Modifier
-                .align(alignment)
-                .size(16.dp)
-                .background(
-                    color = color,
-                    shape = CircleShape,
-                ),
+        modifier = Modifier
+            .align(alignment)
+            .size(16.dp)
+            .background(
+                color = color,
+                shape = CircleShape,
+            ),
     )
 }
 

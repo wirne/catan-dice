@@ -1,19 +1,16 @@
 package com.wirne.catandice.feature.game.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -24,7 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.wirne.catandice.R
 import com.wirne.catandice.data.model.CitiesAndKnightsDiceOutcome
 import com.wirne.catandice.data.model.DiceOutcome
-import com.wirne.catandice.ui.theme.*
+import com.wirne.catandice.ui.theme.CDColor
+import com.wirne.catandice.ui.theme.CDTheme
 
 @Immutable
 enum class NumberDiceColors(
@@ -55,7 +53,7 @@ fun CitiesAndKnightsDice(
                 CitiesAndKnightsDiceOutcome.Ship1,
                 CitiesAndKnightsDiceOutcome.Ship2,
                 CitiesAndKnightsDiceOutcome.Ship3,
-                -> (R.drawable.ic_ship to Color.Black)
+                    -> (R.drawable.ic_ship to Color.Black)
 
                 CitiesAndKnightsDiceOutcome.Blue -> (R.drawable.ic_castle to CDColor.Blue)
                 CitiesAndKnightsDiceOutcome.Yellow -> (R.drawable.ic_castle to CDColor.LightYellow)
@@ -63,9 +61,8 @@ fun CitiesAndKnightsDice(
             }
 
         Icon(
-            modifier =
-                Modifier
-                    .size(60.dp),
+            modifier = Modifier
+                .size(60.dp),
             painter = painterResource(id = drawableRes),
             tint = color,
             contentDescription = null,

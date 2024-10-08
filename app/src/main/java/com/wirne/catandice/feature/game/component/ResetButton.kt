@@ -27,18 +27,17 @@ fun ResetButton(reset: () -> Unit) {
         value = MaterialTheme.typography.bodyMedium,
     ) {
         Text(
-            modifier =
-                Modifier
-                    .border(
-                        shape = MaterialTheme.shapes.small,
-                        border = ButtonDefaults.outlinedButtonBorder,
-                    )
-                    .clip(MaterialTheme.shapes.small)
-                    .combinedClickable(
-                        onLongClick = reset,
-                        onClick = toast::show,
-                    )
-                    .padding(ButtonDefaults.ContentPadding),
+            modifier = Modifier
+                .border(
+                    shape = MaterialTheme.shapes.small,
+                    border = ButtonDefaults.outlinedButtonBorder(),
+                )
+                .clip(MaterialTheme.shapes.small)
+                .combinedClickable(
+                    onLongClick = reset,
+                    onClick = toast::show,
+                )
+                .padding(ButtonDefaults.ContentPadding),
             text = "Reset game",
         )
     }

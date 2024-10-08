@@ -49,16 +49,14 @@ private fun SettingsScreen(
 ) {
     Surface {
         Box(
-            modifier =
-                Modifier
-                    .fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize(),
         ) {
             Column(
-                modifier =
-                    Modifier
-                        .align(Alignment.Center)
-                        .padding(horizontal = 16.dp)
-                        .requiredWidthIn(max = 400.dp),
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(horizontal = 16.dp)
+                    .requiredWidthIn(max = 400.dp),
             ) {
                 RandomPercentageSelector(
                     percentage = state.randomPercentage,
@@ -94,10 +92,9 @@ private fun SettingsScreen(
             }
 
             IconButton(
-                modifier =
-                    Modifier
-                        .padding(4.dp)
-                        .align(Alignment.TopStart),
+                modifier = Modifier
+                    .padding(4.dp)
+                    .align(Alignment.TopStart),
                 onClick = onNavigationIconClick,
             ) {
                 Icon(
@@ -116,12 +113,12 @@ private fun Preview() {
     CDTheme {
         SettingsScreen(
             state =
-                State(
-                    randomPercentage = 10,
-                    citiesAndKnightsEnabled = true,
-                    time = 10.minutes,
-                    timerEnabled = true,
-                ),
+            State(
+                randomPercentage = 10,
+                citiesAndKnightsEnabled = true,
+                time = 10.minutes,
+                timerEnabled = true,
+            ),
             dispatch = { },
             onNavigationIconClick = { },
         )
