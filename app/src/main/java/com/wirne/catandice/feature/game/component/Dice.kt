@@ -5,8 +5,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -91,14 +98,14 @@ private fun CustomDice(
 ) {
     Box(
         modifier =
-            Modifier
-                .size(80.dp)
-                .rotate(rotation)
-                .background(
-                    color = background,
-                    shape = RoundedCornerShape(12.dp),
-                )
-                .padding(12.dp),
+        Modifier
+            .size(80.dp)
+            .rotate(rotation)
+            .background(
+                color = background,
+                shape = RoundedCornerShape(12.dp),
+            )
+            .padding(12.dp),
         contentAlignment = Alignment.Center,
         content = content,
     )

@@ -3,17 +3,15 @@ package com.wirne.catandice.feature.timer
 import com.wirne.catandice.common.ViewModelContract
 import kotlin.time.Duration
 
-interface FloatingTimerContract : ViewModelContract<FloatingTimerContract.Event, FloatingTimerContract.Effect, FloatingTimerContract.State> {
+interface FloatingTimerContract : ViewModelContract<FloatingTimerContract.Event, FloatingTimerContract.State> {
     sealed class Event {
         data object OnPauseTimer : Event()
 
         data object OnPlayTimer : Event()
 
         data object OnStopTimer : Event()
-    }
 
-    sealed class Effect {
-        data object Timeout : Effect()
+        data object OnVibrate : Event()
     }
 
     data class State(
@@ -21,6 +19,7 @@ interface FloatingTimerContract : ViewModelContract<FloatingTimerContract.Event,
         val running: Boolean,
         val enabled: Boolean,
         val gotHistory: Boolean,
+        val shouldVibrate: Boolean,
     ) {
         val timeout: Boolean = timeLeft == Duration.ZERO
 
@@ -31,6 +30,7 @@ interface FloatingTimerContract : ViewModelContract<FloatingTimerContract.Event,
                     running = false,
                     enabled = false,
                     gotHistory = false,
+                    shouldVibrate = false,
                 )
         }
     }

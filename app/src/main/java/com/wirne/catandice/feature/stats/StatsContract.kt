@@ -6,10 +6,8 @@ import com.wirne.catandice.data.model.TwoDiceSum
 import kotlin.math.roundToInt
 
 interface StatsContract :
-    ViewModelContract<StatsContract.Event, StatsContract.Effect, StatsContract.State> {
+    ViewModelContract<StatsContract.Event, StatsContract.State> {
     object Event
-
-    object Effect
 
     data class State(
         val twoDiceSumCount: Map<TwoDiceSum, Count>,

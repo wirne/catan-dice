@@ -3,6 +3,7 @@ package com.wirne.catandice.feature.game
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wirne.catandice.R
@@ -36,7 +38,7 @@ fun GameScreen(
     openStats: () -> Unit,
     viewModel: GameViewModel = hiltViewModel(),
 ) {
-    val (state, _, dispatch) = use(viewModel)
+    val (state, dispatch) = use(viewModel)
 
     GameScreen(
         state = state,
@@ -68,6 +70,8 @@ private fun GameScreen(
                 title = { },
                 colors = TopAppBarDefaults.topAppBarColors(),
                 actions = {
+                    Spacer(modifier = Modifier.width(8.dp))
+
                     AnimatedVisibility(
                         visible = state.diceRollHistory.isNotEmpty(),
                     ) {

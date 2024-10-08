@@ -33,7 +33,7 @@ fun SettingsScreen(
     onNavigationIconClick: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
-    val (state, _, dispatch) = use(viewModel)
+    val (state, dispatch) = use(viewModel)
     SettingsScreen(
         onNavigationIconClick = onNavigationIconClick,
         state = state,

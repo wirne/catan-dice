@@ -4,14 +4,12 @@ import androidx.compose.runtime.Immutable
 import com.wirne.catandice.common.ViewModelContract
 import com.wirne.catandice.data.model.ShipState
 
-interface GameContract :
-    ViewModelContract<GameContract.Event, GameContract.Effect, GameContract.State> {
-    sealed class Effect
+interface GameContract : ViewModelContract<GameContract.Event, GameContract.State> {
 
     sealed class Event {
-        object Roll : Event()
+        data object Roll : Event()
 
-        object Reset : Event()
+        data object Reset : Event()
 
         data class OnShipStateChange(val state: ShipState) : Event()
     }

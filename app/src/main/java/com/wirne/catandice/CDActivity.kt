@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
@@ -39,6 +42,8 @@ internal fun CDNavHost() {
     NavHost(
         navController = navController,
         startDestination = "game",
+        exitTransition = { fadeOut(animationSpec = tween(durationMillis = 300)) },
+        enterTransition = { fadeIn(animationSpec = tween(durationMillis = 300)) },
     ) {
         composable(route = "game") {
             GameScreen(

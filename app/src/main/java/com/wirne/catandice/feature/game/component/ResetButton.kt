@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -32,6 +33,7 @@ fun ResetButton(reset: () -> Unit) {
                         shape = MaterialTheme.shapes.small,
                         border = ButtonDefaults.outlinedButtonBorder,
                     )
+                    .clip(MaterialTheme.shapes.small)
                     .combinedClickable(
                         onLongClick = reset,
                         onClick = toast::show,

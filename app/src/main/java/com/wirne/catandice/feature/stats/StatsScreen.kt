@@ -42,7 +42,7 @@ fun StatsScreen(
     onNavigationIconClick: () -> Unit,
     viewModel: StatsViewModel = hiltViewModel(),
 ) {
-    val (state, _, _) = use(viewModel)
+    val (state, _) = use(viewModel)
     StatsScreen(
         onNavigationIconClick = onNavigationIconClick,
         state = state,
