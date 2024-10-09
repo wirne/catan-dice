@@ -36,7 +36,8 @@ fun SwitchRow(
             colors = SwitchDefaults.colors(
                 checkedTrackColor = CDColor.Red,
                 checkedThumbColor = CDColor.Yellow,
-                uncheckedThumbColor = CDColor.Grey,
+                uncheckedThumbColor = CDColor.DarkGrey,
+                uncheckedTrackColor = CDColor.Grey,
             ),
         )
     }
