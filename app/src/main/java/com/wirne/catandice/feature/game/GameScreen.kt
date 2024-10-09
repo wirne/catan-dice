@@ -29,7 +29,6 @@ import com.wirne.catandice.feature.game.component.Dices
 import com.wirne.catandice.feature.game.component.ResetButton
 import com.wirne.catandice.feature.game.component.RollButton
 import com.wirne.catandice.feature.game.component.Ship
-import com.wirne.catandice.ui.theme.CDColor
 import com.wirne.catandice.ui.theme.CDTheme
 
 @Composable
@@ -90,7 +89,6 @@ private fun GameScreen(
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_bar_chart),
                                 contentDescription = null,
-                                tint = CDColor.White87,
                             )
                         }
                     }
@@ -101,7 +99,6 @@ private fun GameScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_settings),
                             contentDescription = null,
-                            tint = CDColor.White87,
                         )
                     }
                 },

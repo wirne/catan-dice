@@ -60,7 +60,6 @@ fun RandomPercentageSelector(
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_info),
-                    tint = CDColor.White87,
                     contentDescription = "Info",
                 )
             }
@@ -77,11 +76,7 @@ fun RandomPercentageSelector(
                 }
             },
             valueRange = 0f.rangeTo(100f),
-            colors =
-            SliderDefaults.colors(
-                thumbColor = CDColor.Yellow,
-                activeTrackColor = CDColor.Red,
-            ),
+            colors = SliderDefaults.colors(thumbColor = CDColor.Yellow),
         )
     }
 }

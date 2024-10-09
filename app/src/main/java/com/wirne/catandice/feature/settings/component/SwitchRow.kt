@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.wirne.catandice.ui.theme.CDColor
 import com.wirne.catandice.ui.theme.CDTheme
 
 @Composable
@@ -33,12 +32,7 @@ fun SwitchRow(
             onCheckedChange = {
                 onCheckedChange()
             },
-            colors = SwitchDefaults.colors(
-                checkedTrackColor = CDColor.Red,
-                checkedThumbColor = CDColor.Yellow,
-                uncheckedThumbColor = CDColor.DarkGrey,
-                uncheckedTrackColor = CDColor.Grey,
-            ),
+            colors = SwitchDefaults.colors(),
         )
     }
 }

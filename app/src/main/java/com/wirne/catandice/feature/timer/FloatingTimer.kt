@@ -102,7 +102,7 @@ private fun FloatingTimerImpl(
                     .padding(horizontal = 16.dp),
                 textAlign = TextAlign.Center,
                 text = state.timeLeft.toString(),
-                color = if (state.timeLeft < 30.seconds) Color.Red else CDColor.White87,
+                color = if (state.timeLeft < 30.seconds) Color.Red else CDColor.White85,
             )
 
             Row {
@@ -114,7 +114,6 @@ private fun FloatingTimerImpl(
                     Icon(
                         painter = painterResource(id = R.drawable.ic_play),
                         contentDescription = "Play",
-                        tint = CDColor.White87,
                     )
                 }
 
@@ -124,7 +123,6 @@ private fun FloatingTimerImpl(
                     Icon(
                         painter = painterResource(id = R.drawable.ic_pause),
                         contentDescription = "Pause",
-                        tint = CDColor.White87,
                     )
                 }
 
@@ -134,7 +132,6 @@ private fun FloatingTimerImpl(
                     Icon(
                         painter = painterResource(id = R.drawable.ic_stop),
                         contentDescription = "Stop",
-                        tint = CDColor.White87,
                     )
                 }
             }

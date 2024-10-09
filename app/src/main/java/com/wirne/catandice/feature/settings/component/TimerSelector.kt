@@ -34,11 +34,7 @@ fun TimerSelector(
             },
             // up to 10 minutes
             valueRange = 10f.rangeTo(600f),
-            colors =
-                SliderDefaults.colors(
-                    thumbColor = CDColor.Yellow,
-                    activeTrackColor = CDColor.Red,
-                ),
+            colors = SliderDefaults.colors(thumbColor = CDColor.Yellow),
         )
     }
 }
