@@ -34,6 +34,7 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val (state, dispatch) = use(viewModel)
+
     SettingsScreen(
         onNavigationIconClick = onNavigationIconClick,
         state = state,

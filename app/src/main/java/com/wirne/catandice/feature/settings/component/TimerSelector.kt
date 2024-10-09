@@ -18,7 +18,7 @@ fun TimerSelector(
     onTimeSelected: (Duration) -> Unit,
 ) {
     Column {
-        var selectedTime by remember { mutableStateOf(time) }
+        var selectedTime by remember(time) { mutableStateOf(time) }
 
         Text(text = "Timer: $selectedTime")
 

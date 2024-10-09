@@ -25,7 +25,7 @@ fun RandomPercentageSelector(
     onPercentageSelected: (Int) -> Unit,
 ) {
     Column {
-        var selectedPercentage by remember { mutableFloatStateOf(percentage.toFloat()) }
+        var selectedPercentage by remember(percentage) { mutableFloatStateOf(percentage.toFloat()) }
         var showInfo: Boolean by remember { mutableStateOf(false) }
 
         if (showInfo) {
