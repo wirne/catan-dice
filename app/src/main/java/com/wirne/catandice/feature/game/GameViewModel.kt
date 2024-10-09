@@ -37,9 +37,8 @@ class GameViewModel @Inject constructor(
         )
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.Eagerly,
-        initialValue =
-        State(
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = State(
             diceRollHistory = emptyList(),
             randomPercentage = 0,
             citiesAndKnightsEnabled = false,

@@ -2,8 +2,8 @@ package com.wirne.catandice.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.StateFlow
 
 @Stable
@@ -16,7 +16,7 @@ data class StateDispatch<STATE, EVENT>(
 inline fun <reified STATE, EVENT> use(
     viewModel: ViewModelContract<EVENT, STATE>,
 ): StateDispatch<STATE, EVENT> {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     val dispatch: (EVENT) -> Unit = { event ->
         viewModel.event(event)
