@@ -12,7 +12,7 @@ This document is intended to be clear and easy to understand. We are committed t
 
 ### 1. Information We Do Not Collect
 
-Catan Dice does not collect, access, use, or share any personal or sensitive user data.**
+Catan Dice does not collect, access, use, or share any personal or sensitive user data.
 
 "Personal or sensitive user data" includes, but is not limited to, personally identifiable information, financial and payment information, authentication information, phonebook or contact data, microphone and camera sensor data, and sensitive device or usage data.
 
@@ -34,7 +34,7 @@ As we do not collect any personal or sensitive user data, we do not have a data 
 
 ### 5. Third-Party Services
 
-Catan Dice does not integrate with any third-party services that collect personal or sensitive user data from users of the App.**
+Catan Dice does not integrate with any third-party services that collect personal or sensitive user data from users of the App.
 
 ### 6. Children's Privacy
 
