@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidthIn
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -51,6 +52,7 @@ private fun SettingsScreen(
     Surface {
         Box(
             modifier = Modifier
+                .safeContentPadding()
                 .fillMaxSize(),
         ) {
             Column(

@@ -56,7 +56,9 @@ private fun StatsScreen(
 ) {
     Surface {
         ConstraintLayout(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .safeContentPadding()
+                .fillMaxSize(),
         ) {
             val (xLabelRef, xValuesRef, yLabelRef, graphRef, infoBoxRef) = createRefs()
 

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -45,11 +46,15 @@ import kotlin.time.Duration.Companion.seconds
 private const val MAX_AMPLITUDE = 255
 
 @Composable
-fun FloatingTimer(viewModel: FloatingTimerViewModel = hiltViewModel()) {
+fun FloatingTimer(
+    modifier: Modifier = Modifier,
+    viewModel: FloatingTimerViewModel = hiltViewModel()
+) {
     val (state, dispatch) = use(viewModel)
 
     if (state.enabled && state.gotHistory) {
         FloatingTimerImpl(
+            modifier = modifier,
             state = state,
             dispatch = dispatch,
         )
@@ -58,12 +63,12 @@ fun FloatingTimer(viewModel: FloatingTimerViewModel = hiltViewModel()) {
 
 @Composable
 private fun FloatingTimerImpl(
+    modifier: Modifier = Modifier,
     state: State,
     dispatch: (Event) -> Unit,
 ) {
-    val isPreview = LocalInspectionMode.current
-    var offsetX by remember { mutableFloatStateOf(if (isPreview) 0f else 50f) }
-    var offsetY by remember { mutableFloatStateOf(if (isPreview) 0f else 200f) }
+    var offsetX by remember { mutableFloatStateOf(0f) }
+    var offsetY by remember { mutableFloatStateOf(0f) }
     val context = LocalContext.current
 
     LaunchedEffect(key1 = state.shouldVibrate) {
@@ -80,7 +85,8 @@ private fun FloatingTimerImpl(
     }
 
     Surface(
-        modifier = Modifier
+        modifier = modifier
+            .safeContentPadding()
             .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
             .pointerInput(Unit) {
                 detectDragGestures { change, dragAmount ->

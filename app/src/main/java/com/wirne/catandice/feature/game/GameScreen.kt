@@ -1,9 +1,17 @@
 package com.wirne.catandice.feature.game
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -11,12 +19,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wirne.catandice.R
 import com.wirne.catandice.common.use
@@ -58,15 +67,18 @@ private fun GameScreen(
     val lastDiceRoll = state.diceRollHistory.lastOrNull()
 
     Surface {
-        ConstraintLayout(
+        Box(
             modifier = Modifier
+                .safeContentPadding()
                 .fillMaxSize(),
         ) {
-            val (shipRef, dicesRef, rollButtonRef) = createRefs()
 
             TopAppBar(
                 title = { },
-                colors = TopAppBarDefaults.topAppBarColors(),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                ),
+                windowInsets = WindowInsets(0),
                 actions = {
                     Spacer(modifier = Modifier.width(8.dp))
 
@@ -104,46 +116,37 @@ private fun GameScreen(
                 },
             )
 
-            if (lastDiceRoll != null) {
-                Dices(
-                    modifier =
-                    Modifier
-                        .constrainAs(dicesRef) {
-                            top.linkTo(parent.top)
-                            if (state.citiesAndKnightsEnabled) {
-                                bottom.linkTo(shipRef.top)
-                            } else {
-                                bottom.linkTo(parent.bottom)
-                            }
-                            centerHorizontallyTo(parent)
-                        },
-                    diceRoll = lastDiceRoll,
-                    knightsAndCitiesEnabled = state.citiesAndKnightsEnabled,
-                )
-            }
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .align(Alignment.Center),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Bottom,
+            ) {
 
-            if (state.citiesAndKnightsEnabled) {
-                Ship(
-                    modifier =
-                    Modifier
-                        .constrainAs(shipRef) {
-                            bottom.linkTo(parent.bottom)
-                            centerHorizontallyTo(parent)
+                if (lastDiceRoll != null) {
+                    Dices(
+                        modifier = Modifier
+                            .weight(1f)
+                            .wrapContentSize(align = Alignment.Center),
+                        diceRoll = lastDiceRoll,
+                        knightsAndCitiesEnabled = state.citiesAndKnightsEnabled,
+                    )
+                }
+
+                if (state.citiesAndKnightsEnabled) {
+                    Ship(
+                        modifier = Modifier,
+                        state = state.shipState,
+                        onShipStateChange = {
+                            dispatch(Event.OnShipStateChange(it))
                         },
-                    state = state.shipState,
-                    onShipStateChange = {
-                        dispatch(Event.OnShipStateChange(it))
-                    },
-                )
+                    )
+                }
             }
 
             RollButton(
-                modifier =
-                Modifier
-                    .constrainAs(rollButtonRef) {
-                        end.linkTo(parent.end)
-                        centerVerticallyTo(parent)
-                    },
+                modifier = Modifier.align(Alignment.CenterEnd),
                 onClick = {
                     dispatch(Event.Roll)
                 },
@@ -159,20 +162,20 @@ private fun Preview() {
     CDTheme {
         GameScreen(
             state =
-            State(
-                diceRollHistory =
-                listOf(
-                    DiceRoll(
-                        twoDiceOutcome = TwoDiceOutcome.FiveTwo,
-                        citiesAndKnightsDiceOutcome = CitiesAndKnightsDiceOutcome.Green,
-                        turn = 4,
-                        random = false,
-                    ),
+                State(
+                    diceRollHistory =
+                        listOf(
+                            DiceRoll(
+                                twoDiceOutcome = TwoDiceOutcome.FiveTwo,
+                                citiesAndKnightsDiceOutcome = CitiesAndKnightsDiceOutcome.Green,
+                                turn = 4,
+                                random = false,
+                            ),
+                        ),
+                    randomPercentage = 10,
+                    citiesAndKnightsEnabled = true,
+                    shipState = ShipState.Five,
                 ),
-                randomPercentage = 10,
-                citiesAndKnightsEnabled = true,
-                shipState = ShipState.Five,
-            ),
             dispatch = { },
             openSettings = { },
             openStats = { },
@@ -186,12 +189,12 @@ private fun PreviewEmpty() {
     CDTheme {
         GameScreen(
             state =
-            State(
-                diceRollHistory = emptyList(),
-                randomPercentage = 10,
-                citiesAndKnightsEnabled = true,
-                shipState = ShipState.Five,
-            ),
+                State(
+                    diceRollHistory = emptyList(),
+                    randomPercentage = 10,
+                    citiesAndKnightsEnabled = true,
+                    shipState = ShipState.Five,
+                ),
             dispatch = { },
             openSettings = { },
             openStats = { },
